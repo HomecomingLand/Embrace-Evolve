@@ -37,7 +37,7 @@ They were resized to max 2000 px and stripped of EXIF (incl. GPS). Originals are
 |---|---|---|---|
 | Home hero | hero-home.jpg | Lente:Zomer IMG_0779 | morning light through the trees: arrival, quiet |
 | Collage | collage-open-plek / -schors / -waterlelie / -houtstapel / -vuur | IMG_2343, IMG_0839, IMG_1590, IMG_1139, IMG_2092 | textures of the place, like Tifawine's collage |
-| Banner | banner-tuin-mist.jpg | IMG_2355 | the garden in mist, very Tifawine |
+| Banner | banner-tuin-mist.jpg | IMG_2355 | the garden in mist, very Tifawine; cropped to 21:9 and the parasol tip painted out with Higgsfield (GPT Image 2), only that patch is generated |
 | "In alle veiligheid" | jessica-sessie.jpg | Beeld IMG_9607 | Jessica at work, attentive |
 | Groep card | groep-stoelen.jpg | IMG_0781 | chairs in the sun, reads as a circle |
 | Privé card | prive-handen.jpg | Beeld IMG_9549 | two hands, intimate and anonymous |
