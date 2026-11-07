@@ -1,0 +1,56 @@
+---
+import Base from '../layouts/Base.astro';
+import PageIntro from '@opstellingen/shared/components/PageIntro.astro';
+import EventCard from '../components/EventCard.astro';
+import { getCollection } from 'astro:content';
+import { t, route, formatDate, type Locale } from '../i18n';
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const tr = t(locale);
+const all = (await getCollection('events', (e) => e.data.lang === locale && !e.data.draft)).sort((a, b) => a.data.date.getTime() - b.data.date.getTime());
+const cutoff = new Date(Date.now() - 86400000);
+const upcoming = all.filter((e) => e.data.date >= cutoff);
+const past = all.filter((e) => e.data.date < cutoff).reverse();
+const copy = {
+  nl: { title: 'Agenda', description: 'Komende opstellingsdagen en specials op Homecoming Land in Brasschaat. Schrijf je in of vraag een privéopstelling aan.', eyebrow: 'Data', lede: 'Alle komende opstellingsdagen op Homecoming Land. Een privéopstelling plannen we samen in.' },
+  en: { title: 'Dates', description: 'Upcoming constellation days and specials at Homecoming Land in Brasschaat. Register or request a private constellation.', eyebrow: 'Dates', lede: 'All upcoming constellation days at Homecoming Land. Private constellations are scheduled together.' },
+}[locale];
+---
+<Base locale={locale} title={copy.title} description={copy.description} routeKey="agenda">
+  <PageIntro eyebrow={copy.eyebrow} title={copy.title} lede={copy.lede} />
+  <section class="section--tight">
+    <div class="wrap">
+      <h2 class="eyebrow muted list-title">{tr('agenda.upcoming')}</h2>
+      {upcoming.length > 0 ? (
+        <div class="grid grid--3" data-events>{upcoming.map((e) => <div data-date={e.data.date.toISOString().slice(0,10)}><EventCard event={e} locale={locale} /></div>)}</div>
+      ) : (
+        <p class="measure">{tr('agenda.none')}</p>
+      )}
+      <p class="measure" data-events-empty hidden>{tr('agenda.none')}</p>
+      <p class="cta-row"><a class="btn btn--solid" href={route('inschrijven', locale)}>{tr('cta.inschrijven')}</a> <a class="btn" href={route('contact', locale)}>{tr('cta.prive')}</a></p>
+    </div>
+  </section>
+  {past.length > 0 && (
+    <section class="section--tight band">
+      <div class="wrap">
+        <h2 class="eyebrow muted list-title">{tr('agenda.past')}</h2>
+        <ul class="past">
+          {past.map((e) => (<li><span class="muted">{formatDate(e.data.date, locale, { day: 'numeric', month: 'long', year: 'numeric' })}</span> — {e.data.title}</li>))}
+        </ul>
+      </div>
+    </section>
+  )}
+</Base>
+<style>
+  .list-title { margin-bottom: 1.5rem; }
+  .cta-row { margin-top: 3rem; display: flex; flex-wrap: wrap; gap: 1rem; }
+  .past { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.5rem; }
+</style>
+<script>
+  // Hide events whose date has passed, even if the site was not rebuilt recently.
+  const today = new Date().toISOString().slice(0, 10);
+  const items = document.querySelectorAll('[data-events] > [data-date]');
+  let visible = 0;
+  items.forEach((el) => { if ((el as HTMLElement).dataset.date! < today) el.remove(); else visible++; });
+  if (items.length && !visible) document.querySelector('[data-events-empty]')?.removeAttribute('hidden');
+</script>

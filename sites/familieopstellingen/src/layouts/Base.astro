@@ -1,0 +1,102 @@
+---
+/**
+ * Base layout: <head>, fonts, nav, footer. Every page/view wraps itself in this.
+ * Props: locale, title, description, alternates (language-switch links), transparentNav.
+ */
+import '@fontsource/cormorant-garamond/400.css';
+import '@fontsource/cormorant-garamond/500.css';
+import '@fontsource/cormorant-garamond/600.css';
+import '@fontsource/cormorant-garamond/500-italic.css';
+import '@fontsource/jost/400.css';
+import '@fontsource/jost/500.css';
+import '@fontsource/jost/600.css';
+import '@opstellingen/shared/css/base.css';
+import '../styles/theme.css';
+import Nav from '@opstellingen/shared/components/Nav.astro';
+import Footer from '@opstellingen/shared/components/Footer.astro';
+import { site } from '../site.config';
+import { t, route, type Locale, type RouteKey, localeLinks } from '../i18n';
+
+interface Props {
+  locale: Locale;
+  title: string;
+  description: string;
+  routeKey: RouteKey;
+  slugs?: Partial<Record<Locale, string>>;
+  transparentNav?: boolean;
+  ogImage?: string;
+}
+const { locale, title, description, routeKey, slugs, transparentNav = false, ogImage = '/images/og-default.jpg' } = Astro.props;
+const tr = t(locale);
+const locales = localeLinks(locale, routeKey, slugs);
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const fullTitle = `${title} · ${site.name} · ${site.person}`;
+const year = new Date().getFullYear();
+
+const navItems = [
+  { label: tr('nav.opstellingen'), href: route('opstellingen', locale) },
+  { label: tr('nav.agenda'), href: route('agenda', locale) },
+  { label: tr('nav.over'), href: route('over', locale) },
+  { label: tr('nav.locatie'), href: route('locatie', locale) },
+  { label: tr('nav.blog'), href: route('blog', locale) },
+  { label: tr('nav.contact'), href: route('contact', locale) },
+];
+const footerColumns = [
+  { title: tr('footer.pages'), links: navItems.slice(0, 3) },
+  { title: tr('footer.praktisch'), links: [navItems[3], navItems[4], { label: tr('nav.cta'), href: route('inschrijven', locale) }, { label: tr('footer.privacy'), href: route('privacy', locale) }] },
+];
+const addressLines = [site.address.venue, site.address.street, `${site.address.postal} ${site.address.city}`, locale === 'nl' ? site.address.country : site.address.countryEn];
+const contactLines = [{ label: site.email, href: `mailto:${site.email}` }, { label: site.phone, href: site.phoneHref }];
+const siblings = site.siblings.map((s) => ({ label: `${s.name} — ${locale === 'nl' ? s.nl : s.en}`, href: s.url }));
+---
+<!doctype html>
+<html lang={locale === 'nl' ? 'nl-BE' : 'en'}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {locales.map((l) => (<link rel="alternate" hreflang={l.code === 'nl' ? 'nl-BE' : l.code} href={new URL(l.href, Astro.site)} />))}
+    <link rel="alternate" hreflang="x-default" href={new URL(locales.find((l) => l.code === 'nl')?.href ?? '/', Astro.site)} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={new URL(ogImage, Astro.site)} />
+    <meta property="og:locale" content={locale === 'nl' ? 'nl_BE' : 'en_GB'} />
+    <meta name="theme-color" content="#f7f3ef" />
+  </head>
+  <body>
+    <a class="skip" href="#main">{tr('skip')}</a>
+    <Nav
+      brand={site.name}
+      brandHref={route('home', locale)}
+      items={navItems}
+      cta={{ label: tr('nav.cta'), href: route('inschrijven', locale) }}
+      locales={locales}
+      transparent={transparentNav}
+      menuLabel={tr('nav.menu')}
+      closeLabel={tr('nav.close')}
+    />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer
+      brand={site.name}
+      tagline={tr('footer.tagline')}
+      columns={footerColumns}
+      addressLines={addressLines}
+      contactLines={contactLines}
+      legal={tr('footer.legal', { year })}
+      siblingsTitle={tr('footer.siblings')}
+      siblings={siblings}
+    />
+  </body>
+</html>
+
+<style is:global>
+  .skip { position: absolute; left: -999px; top: 0; background: var(--ink); color: var(--paper); padding: 0.6em 1em; z-index: 100; }
+  .skip:focus { left: 1rem; top: 1rem; }
+</style>

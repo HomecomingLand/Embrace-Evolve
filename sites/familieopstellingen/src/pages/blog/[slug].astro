@@ -1,0 +1,13 @@
+---
+import { getCollection } from 'astro:content';
+import PostDetail from '../../views/PostDetail.astro';
+export async function getStaticPaths() {
+  const all = await getCollection('posts', (p) => !p.data.draft);
+  return all.filter((p) => p.data.lang === 'nl').map((p) => {
+    const other = all.find((x) => x.data.lang === 'en' && x.data.key === p.data.key);
+    return { params: { slug: p.id.split('/').pop() }, props: { post: p, slugs: { nl: p.id.split('/').pop(), en: other?.id.split('/').pop() } } };
+  });
+}
+const { post, slugs } = Astro.props;
+---
+<PostDetail locale="nl" post={post} slugs={slugs} />

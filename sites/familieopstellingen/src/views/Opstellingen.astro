@@ -1,0 +1,115 @@
+---
+import Base from '../layouts/Base.astro';
+import PageIntro from '@opstellingen/shared/components/PageIntro.astro';
+import SectionHeading from '@opstellingen/shared/components/SectionHeading.astro';
+import { t, route, type Locale } from '../i18n';
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const tr = t(locale);
+const copy = {
+  nl: {
+    title: 'Opstellingen in groep en privé',
+    description: 'Hoe een familieopstelling werkt, de drie posities, blind opstellen en wat je mag verwachten van een opstellingsdag op Homecoming Land.',
+    eyebrow: 'Familieopstellingen',
+    lede: 'Familieopstellingen maken zichtbaar wat onder de oppervlakte speelt. Je kan deelnemen in groep of kiezen voor een privé-sessie.',
+    groepTitle: 'Opstellingen in groep',
+    groep: ['Hier ervaar je de kracht van het collectief. De drie posities — vraagsteller, representant en toeschouwer — hebben elk hun eigen waarde. Je onderzoekt je levensvragen, ervaart de kracht van kwetsbaarheid en ontvangt de vaak onverwachte warmte van de groep. Je komt zo terug in jezelf en in je systeem.', 'Groepen variëren tussen de 12 en 20 deelnemers. Tijdens de dag zelf kijken we welke opstellingen aan bod dienen te komen; we stellen ongeveer een handvol vragen op.'],
+    priveTitle: 'Privéopstellingen',
+    prive: ['In een privé-sessie staan jij en jouw vraag centraal. Je bent de enige vraagsteller, waardoor er alle ruimte is om in één sessie meerdere vragen te onderzoeken. In alle vertrouwelijkheid en veiligheid diepen we jouw persoonlijke thema’s uit.', 'Een privéopstelling plannen we samen in. Neem contact op en we zoeken een moment dat past.'],
+    posTitle: 'Drie posities, drie ervaringen',
+    pos: [
+      { h: 'Vraagsteller', p: 'Als vraagsteller krijg je helderheid over de dynamieken van de vraag die je ingebracht hebt.' },
+      { h: 'Representant', p: 'Als representant open je je voor je gevoelservaring; je eigen stukken kunnen via het representeren voor de vraag van een ander doorvoeld, verhelderd en verdiept worden.' },
+      { h: 'Toeschouwer', p: 'Als toeschouwer heb je de ruimte om heel dicht bij jezelf te blijven en de dynamieken die zich ontvouwen vanuit je eigen energie te doorvoelen.' },
+    ],
+    posNote: 'Vanuit elke positie kunnen opstellingen diep je gevoelens raken en heldere inzichten geven. Ook als je geen vraag inbrengt, of je vraag niet behandeld wordt, kan deelname een diep helende ervaring zijn.',
+    blindTitle: 'Werkwijze: blind opstellen',
+    blind: 'Er wordt ‘blind’ opgesteld: de representanten worden zonder kennis van wie of wat ze representeren in het veld uitgenodigd. Zo wordt de mogelijkheid tot projectie uitgeschakeld en ontstaat er ruimte om als representant dicht bij je voelen te blijven. Niemand van de deelnemers krijgt, zonder toestemming van de vraagsteller, de vraag of details hieromtrent te horen.',
+    prakTitle: 'Praktisch',
+    prak: [
+      { h: 'Waar', p: 'In het vernieuwde paviljoen op Homecoming Land, Bredabaan 1251, Brasschaat.' },
+      { h: 'Bijdrage', p: 'Voor een opstellingsdag in groep vragen we een bijdrage per deelnemer; voor privé-sessies hanteren we een tarief naar financiële draagkracht. De juiste bedragen vind je bij elke datum in de agenda.' },
+      { h: 'Eten & drinken', p: 'Tijdens specials voorzien we verwarmende dranken, snacks en een zelfgemaakte warme biologische maaltijd.' },
+      { h: 'Annulatie', p: 'Opstellingen zijn een dynamisch groepsproces waarin we van elkaars aanwezigheid afhankelijk zijn. Annuleer daarom niet laattijdig; verwittig zo snel mogelijk als je verhinderd bent.' },
+    ],
+    alt1: 'Stoelen in de kring op Homecoming Land', alt2: 'Twee handen die elkaar vasthouden',
+  },
+  en: {
+    title: 'Group and private constellations',
+    description: 'How a family constellation works, the three positions, blind constellations and what to expect from a constellation day at Homecoming Land.',
+    eyebrow: 'Family constellations',
+    lede: 'Family constellations make visible what plays beneath the surface. You can take part in a group or choose a private session.',
+    groepTitle: 'Group constellations',
+    groep: ['Here you experience the power of the collective. The three positions — questioner, representative and observer — each have their own value. You explore your life questions, experience the strength of vulnerability and receive the often unexpected warmth of the group. You return to yourself and to your system.', 'Groups vary between 12 and 20 participants. During the day we see which constellations need to come forward; we set up roughly a handful of questions.'],
+    priveTitle: 'Private constellations',
+    prive: ['In a private session, you and your question take centre stage. You are the only questioner, so there is room to explore several questions in one session. In complete confidentiality and safety, we go deeper into your personal themes.', 'Private constellations are scheduled together. Get in touch and we will find a moment that suits you.'],
+    posTitle: 'Three positions, three experiences',
+    pos: [
+      { h: 'Questioner', p: 'As a questioner you gain clarity about the dynamics of the question you brought.' },
+      { h: 'Representative', p: 'As a representative you open up to your felt experience; your own pieces can be felt, clarified and deepened through representing for someone else’s question.' },
+      { h: 'Observer', p: 'As an observer you have the room to stay very close to yourself and to feel the dynamics that unfold from your own energy.' },
+    ],
+    posNote: 'From every position, constellations can touch your feelings deeply and give clear insights. Even if you do not bring a question, or your question is not worked with, taking part can be a deeply healing experience.',
+    blindTitle: 'How we work: blind constellations',
+    blind: 'Constellations are set up “blind”: representatives are invited into the field without knowing who or what they represent. This switches off the possibility of projection and creates room for representatives to stay close to what they feel. No participant hears the question or its details without the questioner’s consent.',
+    prakTitle: 'Practical',
+    prak: [
+      { h: 'Where', p: 'In the renovated pavilion at Homecoming Land, Bredabaan 1251, Brasschaat.' },
+      { h: 'Contribution', p: 'For a group constellation day we ask a contribution per participant; private sessions are priced according to your means. You will find the exact amounts with each date.' },
+      { h: 'Food & drink', p: 'During specials we provide warming drinks, snacks and a home-cooked, warm organic meal.' },
+      { h: 'Cancellation', p: 'A constellation day is a dynamic group process in which we depend on each other’s presence. Please do not cancel at short notice; let us know as soon as possible if you cannot come.' },
+    ],
+    alt1: 'Chairs in a circle at Homecoming Land', alt2: 'Two hands holding each other',
+  },
+}[locale];
+---
+<Base locale={locale} title={copy.title} description={copy.description} routeKey="opstellingen">
+  <PageIntro eyebrow={copy.eyebrow} title={copy.title} lede={copy.lede} />
+  <section class="section--tight">
+    <div class="wrap grid grid--2 two">
+      <article>
+        <div class="frame frame--4x3"><img src="/images/groep-stoelen.jpg" alt={copy.alt1} loading="lazy" /></div>
+        <h2 class="display-sm">{copy.groepTitle}</h2>
+        {copy.groep.map((p) => <p>{p}</p>)}
+        <a class="arrow-link" href={route('agenda', locale)}>{tr('cta.data')}</a>
+      </article>
+      <article>
+        <div class="frame frame--4x3"><img src="/images/prive-handen.jpg" alt={copy.alt2} loading="lazy" /></div>
+        <h2 class="display-sm">{copy.priveTitle}</h2>
+        {copy.prive.map((p) => <p>{p}</p>)}
+        <a class="arrow-link" href={route('contact', locale)}>{tr('cta.prive')}</a>
+      </article>
+    </div>
+  </section>
+  <section class="section band">
+    <div class="wrap">
+      <SectionHeading title={copy.posTitle} align="center" />
+      <div class="grid grid--3">
+        {copy.pos.map((x) => (<div><h3 class="display-sm">{x.h}</h3><p>{x.p}</p></div>))}
+      </div>
+      <p class="measure center posnote">{copy.posNote}</p>
+    </div>
+  </section>
+  <section class="section">
+    <div class="wrap split">
+      <SectionHeading title={copy.blindTitle} />
+      <p class="lede">{copy.blind}</p>
+    </div>
+  </section>
+  <section class="section band">
+    <div class="wrap split">
+      <SectionHeading title={copy.prakTitle} />
+      <dl class="facts">
+        {copy.prak.map((x) => (<div><dt class="eyebrow">{x.h}</dt><dd>{x.p}</dd></div>))}
+      </dl>
+    </div>
+  </section>
+</Base>
+<style>
+  .two { gap: clamp(1.5rem, 4vw, 4rem); }
+  .two h2 { margin: 1.4rem 0 0.8rem; }
+  .posnote { margin: 2.5rem auto 0; }
+  .facts { margin: 0; display: grid; gap: 1.5rem; }
+  .facts dt { margin-bottom: 0.4rem; }
+  .facts dd { margin: 0; }
+</style>

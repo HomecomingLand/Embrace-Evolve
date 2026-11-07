@@ -1,0 +1,107 @@
+---
+/**
+ * Top navigation in the Tifawine style: tiny uppercase letter-spaced links,
+ * wordmark left, one call-to-action right. Transparent over the hero, solid
+ * paper background once the page scrolls (handled with a small script).
+ */
+interface NavItem { label: string; href: string; }
+interface LocaleLink { code: string; label: string; href: string; current: boolean; }
+interface Props {
+  brand: string;
+  brandHref: string;
+  items: NavItem[];
+  cta?: NavItem;
+  locales: LocaleLink[];
+  transparent?: boolean;   // true on pages with a full-bleed hero
+  menuLabel: string;       // "Menu"
+  closeLabel: string;      // "Sluiten"
+}
+const { brand, brandHref, items, cta, locales, transparent = false, menuLabel, closeLabel } = Astro.props;
+const current = Astro.url.pathname;
+---
+<header class:list={['nav', { 'nav--transparent': transparent }]} data-nav>
+  <div class="nav__inner wrap">
+    <a class="nav__brand" href={brandHref}>{brand}</a>
+    <nav class="nav__links" aria-label="Main">
+      <ul>
+        {items.map((it) => (
+          <li><a href={it.href} aria-current={current === it.href ? 'page' : undefined}>{it.label}</a></li>
+        ))}
+      </ul>
+    </nav>
+    <div class="nav__right">
+      <ul class="nav__locales" aria-label="Language">
+        {locales.map((l) => (
+          <li><a href={l.href} lang={l.code} hreflang={l.code} aria-current={l.current ? 'true' : undefined}>{l.label}</a></li>
+        ))}
+      </ul>
+      {cta && <a class="nav__cta" href={cta.href}>{cta.label}</a>}
+      <button class="nav__toggle" type="button" aria-expanded="false" aria-controls="mobile-menu" data-nav-toggle>
+        <span data-label-open>{menuLabel}</span><span data-label-close hidden>{closeLabel}</span>
+      </button>
+    </div>
+  </div>
+  <div class="nav__mobile" id="mobile-menu" hidden data-nav-mobile>
+    <ul>
+      {items.map((it) => (<li><a href={it.href}>{it.label}</a></li>))}
+      {cta && <li><a class="nav__mobile-cta" href={cta.href}>{cta.label}</a></li>}
+      <li class="nav__mobile-locales">{locales.map((l) => (<a href={l.href} lang={l.code} aria-current={l.current ? 'true' : undefined}>{l.label}</a>))}</li>
+    </ul>
+  </div>
+</header>
+
+<style>
+  .nav { position: sticky; top: 0; z-index: 50; background: var(--paper); color: var(--ink); transition: background 0.3s ease, color 0.3s ease, box-shadow 0.3s ease; }
+  .nav--transparent { position: fixed; left: 0; right: 0; background: transparent; color: #fff; }
+  .nav--transparent.is-scrolled { background: var(--paper); color: var(--ink); box-shadow: 0 1px 0 var(--line); }
+  .nav__inner { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: var(--gap); min-height: 4.5rem; }
+  .nav__brand { font-family: var(--font-display); font-size: 1.35rem; letter-spacing: 0.22em; text-transform: uppercase; font-weight: 500; white-space: nowrap; }
+  .nav__links ul, .nav__locales, .nav__mobile ul { list-style: none; margin: 0; padding: 0; }
+  .nav__links ul { display: flex; justify-content: center; gap: clamp(1rem, 2.2vw, 2rem); }
+  .nav__links a, .nav__cta, .nav__locales a, .nav__toggle { font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase; font-weight: 500; }
+  .nav__links a[aria-current='page'] { text-decoration: underline; text-underline-offset: 0.5em; text-decoration-thickness: 1px; }
+  .nav__right { display: flex; align-items: center; gap: 1.25rem; }
+  .nav__locales { display: flex; gap: 0.6rem; }
+  .nav__locales a { opacity: 0.55; }
+  .nav__locales a[aria-current='true'] { opacity: 1; text-decoration: underline; text-underline-offset: 0.5em; text-decoration-thickness: 1px; }
+  .nav__cta { padding: 0.65em 1.2em; border: 1px solid currentColor; white-space: nowrap; }
+  .nav__cta:hover { background: currentColor; }
+  .nav__cta:hover { color: var(--paper); }
+  .nav--transparent:not(.is-scrolled) .nav__cta:hover { color: var(--ink); background: #fff; border-color: #fff; }
+  .nav__toggle { display: none; background: none; border: 0; padding: 0.4em 0; cursor: pointer; color: inherit; }
+  .nav__mobile { background: var(--paper); color: var(--ink); border-top: 1px solid var(--line); padding: 1rem var(--gutter) 2rem; }
+  .nav__mobile li + li { margin-top: 0.25rem; }
+  .nav__mobile a { display: block; padding: 0.75rem 0; font-family: var(--font-display); font-size: 1.6rem; }
+  .nav__mobile-cta { font-family: var(--font-body) !important; font-size: 0.8rem !important; letter-spacing: 0.18em; text-transform: uppercase; }
+  .nav__mobile-locales { display: flex; gap: 1.5rem; padding-top: 1rem; }
+  .nav__mobile-locales a { font-family: var(--font-body); font-size: 0.8rem; letter-spacing: 0.18em; text-transform: uppercase; opacity: 0.6; }
+  .nav__mobile-locales a[aria-current='true'] { opacity: 1; text-decoration: underline; text-underline-offset: 0.5em; }
+  @media (max-width: 64rem) {
+    .nav__inner { grid-template-columns: auto auto; justify-content: space-between; }
+    .nav__links, .nav__locales, .nav__cta { display: none; }
+    .nav__toggle { display: inline-block; }
+    .nav--transparent.is-open { background: var(--paper); color: var(--ink); }
+    .nav__brand { font-size: 0.95rem; letter-spacing: 0.16em; }
+  }
+</style>
+
+<script>
+  const nav = document.querySelector('[data-nav]');
+  const toggle = document.querySelector('[data-nav-toggle]');
+  const mobile = document.querySelector('[data-nav-mobile]');
+  if (nav && nav.classList.contains('nav--transparent')) {
+    const onScroll = () => nav.classList.toggle('is-scrolled', window.scrollY > 40);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+  }
+  if (toggle && mobile && nav) {
+    toggle.addEventListener('click', () => {
+      const open = toggle.getAttribute('aria-expanded') === 'true';
+      toggle.setAttribute('aria-expanded', String(!open));
+      mobile.toggleAttribute('hidden', open);
+      nav.classList.toggle('is-open', !open);
+      toggle.querySelector('[data-label-open]')?.toggleAttribute('hidden', !open);
+      toggle.querySelector('[data-label-close]')?.toggleAttribute('hidden', open);
+    });
+  }
+</script>

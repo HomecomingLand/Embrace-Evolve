@@ -1,0 +1,34 @@
+---
+/** One event in the agenda grid / home teaser. */
+import type { CollectionEntry } from 'astro:content';
+import { t, route, formatDate, type Locale } from '../i18n';
+interface Props { event: CollectionEntry<'events'>; locale: Locale; }
+const { event, locale } = Astro.props;
+const tr = t(locale);
+const d = event.data;
+const href = `${route('agenda', locale)}${event.id.split('/').pop()}/`;
+const statusKey = d.status === 'full' ? 'agenda.full' : d.status === 'few' ? 'agenda.few' : d.status === 'cancelled' ? 'agenda.cancelled' : 'agenda.open';
+const dateStr = formatDate(d.date, locale);
+---
+<article class="ev">
+  <a class="frame frame--4x3 ev__img" href={href}><img src={d.image ?? '/images/placeholder.svg'} alt="" loading="lazy" /></a>
+  <p class="eyebrow muted ev__meta">{tr(`agenda.type.${d.type}`)} · <time datetime={d.date.toISOString().slice(0, 10)}>{dateStr}</time></p>
+  <h3 class="display-sm"><a href={href}>{d.title}</a></h3>
+  <p class="small">{d.summary}</p>
+  <p class="small muted ev__facts">
+    {d.start && d.end && <span>{d.start}–{d.end}</span>}
+    {d.price && <span>{d.price}</span>}
+    <span class:list={['ev__status', `ev__status--${d.status}`]}>{tr(statusKey)}</span>
+  </p>
+  <a class="arrow-link" href={href}>{tr('cta.ontdek')}</a>
+</article>
+
+<style>
+  .ev { display: grid; gap: 0.6rem; align-content: start; }
+  .ev__img { display: block; margin-bottom: 0.6rem; }
+  .ev h3 { margin-bottom: 0.2rem; }
+  .ev__facts { display: flex; flex-wrap: wrap; gap: 0.4rem 1rem; }
+  .ev__status--few { color: var(--clay); }
+  .ev__status--full, .ev__status--cancelled { color: var(--ink-soft); text-decoration: line-through; }
+  .ev .arrow-link { margin-top: 0.4rem; }
+</style>

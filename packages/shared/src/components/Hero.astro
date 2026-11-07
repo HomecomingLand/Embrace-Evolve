@@ -1,0 +1,29 @@
+---
+/**
+ * Full-bleed photo hero with a centred serif wordmark and small caption,
+ * like Tifawine's landing. Pass `tall` for the home page.
+ */
+interface Props { image: string; alt: string; title: string; subtitle?: string; tall?: boolean; ctaLabel?: string; ctaHref?: string; focus?: string; }
+const { image, alt, title, subtitle, tall = false, ctaLabel, ctaHref, focus = 'center' } = Astro.props;
+---
+<section class:list={['hero', { 'hero--tall': tall }]}>
+  <img class="hero__img" src={image} alt={alt} style={`object-position:${focus}`} fetchpriority="high" />
+  <div class="hero__scrim" aria-hidden="true"></div>
+  <div class="hero__content wrap">
+    <h1 class="hero__title">{title}</h1>
+    {subtitle && <p class="hero__sub">{subtitle}</p>}
+    {ctaLabel && ctaHref && <a class="btn btn--light hero__cta" href={ctaHref}>{ctaLabel}</a>}
+  </div>
+</section>
+
+<style>
+  .hero { position: relative; min-height: 62vh; display: grid; place-items: center; color: #fff; text-align: center; overflow: hidden; background: var(--sand); }
+  .hero--tall { min-height: 92vh; }
+  .hero__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .hero__scrim { position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(0,0,0,0.28), rgba(0,0,0,0.12) 45%, rgba(0,0,0,0.28)); }
+  .hero__content { position: relative; padding-block: 8rem 4rem; }
+  .hero__title { font-family: var(--font-display); font-weight: 400; font-size: var(--text-display-xl); letter-spacing: 0.16em; text-transform: uppercase; line-height: 1.05; text-shadow: 0 1px 24px rgba(0,0,0,0.25); }
+  .hero__sub { margin: 1.4rem auto 0; max-width: 34rem; font-size: 0.8rem; letter-spacing: 0.26em; text-transform: uppercase; }
+  .hero__cta { margin-top: 2.5rem; }
+  @media (max-width: 48rem) { .hero__title { font-size: clamp(1.4rem, 6.2vw, 2.6rem); letter-spacing: 0.08em; } .hero__sub { font-size: 0.7rem; letter-spacing: 0.2em; } .hero__content { padding-block: 7rem 3rem; } }
+</style>

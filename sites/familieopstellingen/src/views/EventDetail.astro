@@ -1,0 +1,52 @@
+---
+import Base from '../layouts/Base.astro';
+import { render } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+import { t, route, formatDate, type Locale } from '../i18n';
+interface Props { locale: Locale; event: CollectionEntry<'events'>; slugs: Partial<Record<Locale, string>>; }
+const { locale, event, slugs } = Astro.props;
+const tr = t(locale);
+const d = event.data;
+const { Content } = await render(event);
+const statusKey = d.status === 'full' ? 'agenda.full' : d.status === 'few' ? 'agenda.few' : d.status === 'cancelled' ? 'agenda.cancelled' : 'agenda.open';
+const registerHref = `${route('inschrijven', locale)}?event=${encodeURIComponent(d.key)}`;
+const dateStr = d.endDate ? `${formatDate(d.date, locale)} – ${formatDate(d.endDate, locale)}` : formatDate(d.date, locale);
+---
+<Base locale={locale} title={d.title} description={d.summary} routeKey="agenda" slugs={slugs} ogImage={d.image}>
+  <section class="section--tight">
+    <div class="wrap ev">
+      <div class="ev__media frame frame--3x4"><img src={d.image ?? '/images/placeholder.svg'} alt="" /></div>
+      <div class="ev__body">
+        <p class="eyebrow muted">{tr(`agenda.type.${d.type}`)}</p>
+        <h1 class="display">{d.title}</h1>
+        <span class="rule" aria-hidden="true"></span>
+        <p class="lede">{d.summary}</p>
+        <dl class="facts">
+          <div><dt class="eyebrow">{locale === 'nl' ? 'Datum' : 'Date'}</dt><dd><time datetime={d.date.toISOString().slice(0,10)}>{dateStr}</time></dd></div>
+          {(d.start || d.end) && <div><dt class="eyebrow">{tr('agenda.time')}</dt><dd>{d.start}{d.end ? ` – ${d.end}` : ''}{d.arrival ? ` (${tr('agenda.arrival').toLowerCase()} ${d.arrival})` : ''}</dd></div>}
+          <div><dt class="eyebrow">{tr('agenda.where')}</dt><dd><a href={route('locatie', locale)}>{d.location}</a></dd></div>
+          {d.price && <div><dt class="eyebrow">{tr('agenda.price')}</dt><dd>{d.price}</dd></div>}
+          {d.spots && <div><dt class="eyebrow">{locale === 'nl' ? 'Groep' : 'Group'}</dt><dd>{tr('agenda.spots', { n: d.spots })}</dd></div>}
+          <div><dt class="eyebrow">Status</dt><dd>{tr(statusKey)}</dd></div>
+        </dl>
+        <p class="actions">
+          {d.status !== 'full' && d.status !== 'cancelled' && <a class="btn btn--solid" href={registerHref}>{tr('cta.inschrijven')}</a>}
+          <a class="btn" href={route('agenda', locale)}>{tr('cta.alle-data')}</a>
+        </p>
+        <div class="prose"><Content /></div>
+      </div>
+    </div>
+  </section>
+</Base>
+<style>
+  .ev { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(2rem, 5vw, 5rem); align-items: start; }
+  .ev__media { position: sticky; top: 6rem; }
+  .ev h1 { margin-top: 0.6rem; }
+  .rule { display: block; width: 3.5rem; height: 1px; background: var(--ink); margin: 1rem 0 1.5rem; }
+  .facts { margin: 2rem 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.2rem 2rem; }
+  .facts dt { margin-bottom: 0.3rem; } .facts dd { margin: 0; }
+  .facts a { text-decoration: underline; text-underline-offset: 0.25em; }
+  .actions { display: flex; flex-wrap: wrap; gap: 1rem; margin: 2rem 0 2.5rem; }
+  .prose :global(h2), .prose :global(h3), .prose :global(strong) { font-family: var(--font-display); font-size: 1.4rem; font-weight: 600; display: block; margin: 1.6rem 0 0.4rem; }
+  @media (max-width: 56rem) { .ev { grid-template-columns: minmax(0, 1fr); } .ev__media { position: static; aspect-ratio: 4 / 3; } }
+</style>

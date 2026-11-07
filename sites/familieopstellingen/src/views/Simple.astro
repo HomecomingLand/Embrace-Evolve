@@ -1,0 +1,15 @@
+---
+/** Simple text page (privacy, thank-you). */
+import Base from '../layouts/Base.astro';
+import PageIntro from '@opstellingen/shared/components/PageIntro.astro';
+import type { Locale, RouteKey } from '../i18n';
+interface Props { locale: Locale; routeKey: RouteKey; title: string; description: string; eyebrow?: string; lede?: string; paragraphs: string[]; cta?: { label: string; href: string }; }
+const { locale, routeKey, title, description, eyebrow, lede, paragraphs, cta } = Astro.props;
+---
+<Base locale={locale} title={title} description={description} routeKey={routeKey}>
+  <PageIntro eyebrow={eyebrow} title={title} lede={lede} />
+  <section class="section--tight"><div class="wrap--narrow stack">
+    {paragraphs.map((p) => <p>{p}</p>)}
+    {cta && <p><a class="btn" href={cta.href}>{cta.label}</a></p>}
+  </div></section>
+</Base>

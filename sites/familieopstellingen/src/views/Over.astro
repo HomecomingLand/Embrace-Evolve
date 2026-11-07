@@ -1,0 +1,109 @@
+---
+/** ABOUT — copy from the Pages document "Website About en EE" (version "Over de makers/begeleiders"). */
+import Base from '../layouts/Base.astro';
+import PageIntro from '@opstellingen/shared/components/PageIntro.astro';
+import SectionHeading from '@opstellingen/shared/components/SectionHeading.astro';
+import { t, route, type Locale } from '../i18n';
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const tr = t(locale);
+const copy = {
+  nl: {
+    title: 'Over de begeleiders', description: 'Jessica Abicht, systemisch coach en holistisch therapeut, en Gert Embrechts, coach, storyteller en creatief begeleider. Samen vormen zij Embrace Evolve.',
+    eyebrow: 'Over ons', lede: 'Jessica en Gert ontvangen je op Homecoming Land. Twee begeleiders, één visie: omarm wat is, ontwikkel wie je bent.',
+    jName: 'Jessica Abicht', jRole: 'Systemisch coach en holistisch therapeut',
+    j: [
+      'Jessica begeleidt mensen op hun weg naar een bewuster, vrijer en meer verbonden leven. Haar fascinatie voor menselijke ontwikkeling, diepgang en verbinding ontstond al vroeg en groeide uit tot een brede opleiding en een eigen praktijk met een holistische visie.',
+      'In haar werk staan bewust-zijn, liefdevolle aanwezigheid en de verbinding tussen lichaam en geest centraal. Ze combineert inzichten uit westerse en oosterse tradities en werkt steeds contextueel en persoonsgericht: met oog voor de mens als individu én als onderdeel van een groter systeem.',
+      'Jessica begeleidt zowel individuele trajecten als groeps- en privéopstellingen. Daarbij vertrekt ze vanuit jullie unieke vraag, met respect voor jullie tempo, grenzen en eigenheid.',
+    ],
+    gName: 'Gert Embrechts', gRole: 'Coach, storyteller en creatief begeleider',
+    g: [
+      'Gert Embrechts werkte meer dan dertig jaar in de filmsector als scenarist, regisseur en creative producer. Hij doceerde jarenlang aan filmscholen in binnen- en buitenland en begeleidde makers in het ontwikkelen van hun eigen stem, visie en creatieve kracht.',
+      'Vandaag werkt Gert als coach voor individuen, koppels en groepen. In zijn begeleiding combineert hij systemisch werk met transactionele analyse en NLP. Daarbij richt hij zich op bewustwording, communicatie en de vaak onzichtbare patronen die mensen met elkaar verbinden — of juist afstand creëren.',
+      'Zijn aanpak is gevormd door een krachtige combinatie van storytelling, onderwijs en persoonlijke ontwikkeling. Want zoals ieder verhaal wordt beïnvloed door onderliggende drijfveren, rollen en conflicten, zo spelen ook in relaties oude overtuigingen, familiedynamieken en terugkerende patronen mee.',
+    ],
+    eeEyebrow: 'Embrace Evolve', eeTitle: 'Omarm wat is. Ontwikkel wie je bent.',
+    ee: [
+      'Embrace Evolve staat voor de natuurlijke beweging van ontvangen en groeien, van naar binnen keren en naar buiten bewegen. Die beweging is overal aanwezig: in onze ademhaling, het ritme van ons hart, eb en vloed, de cycli van de maan en in elke fase van verandering in ons leven.',
+      'Embrace betekent omarmen: jezelf, je verhaal, je relaties en de werkelijkheid zoals die nu is. Niet als berusting, maar als een liefdevolle eerste stap. Zoals de aarde een zaad ontvangt, een moeder haar kind omarmt, of een bloem zich opent.',
+      'Vanuit die aanvaarding ontstaat ruimte voor Evolve: ontwikkelen, ontvouwen en bewuster worden. Je ontdekt wat werkelijk van jou is, maakt je los van patronen die je niet langer dienen en groeit naar een leven dat meer klopt met wie je bent.',
+      'Bij Embrace Evolve geloven we dat duurzame verandering niet begint met jezelf verbeteren, maar met jezelf ontmoeten. Pas wanneer je omarmt wat er is, kan je vrijer bewegen naar wat mogelijk wordt.',
+    ],
+    altJ: 'Jessica Abicht', altG: 'Gert Embrechts', altEE: 'Jessica en Gert', altPad: 'Jessica op het bospad',
+  },
+  en: {
+    title: 'About the facilitators', description: 'Jessica Abicht, systemic coach and holistic therapist, and Gert Embrechts, coach, storyteller and creative facilitator. Together they form Embrace Evolve.',
+    eyebrow: 'About us', lede: 'Jessica and Gert welcome you at Homecoming Land. Two facilitators, one vision: embrace what is, evolve into who you are.',
+    jName: 'Jessica Abicht', jRole: 'Systemic coach and holistic therapist',
+    j: [
+      'Jessica guides people on their way to a more conscious, freer and more connected life. Her fascination with human development, depth and connection began early and grew into a broad training and a practice of her own with a holistic vision.',
+      'At the heart of her work are awareness, loving presence and the connection between body and mind. She combines insights from Western and Eastern traditions and always works contextually and person-centred: with an eye for the human being as an individual and as part of a larger system.',
+      'Jessica facilitates individual trajectories as well as group and private constellations. She starts from your unique question, with respect for your pace, your boundaries and who you are.',
+    ],
+    gName: 'Gert Embrechts', gRole: 'Coach, storyteller and creative facilitator',
+    g: [
+      'Gert Embrechts worked for more than thirty years in film as a screenwriter, director and creative producer. For many years he taught at film schools at home and abroad and guided makers in developing their own voice, vision and creative power.',
+      'Today Gert works as a coach for individuals, couples and groups. In his work he combines systemic work with transactional analysis and NLP, focusing on awareness, communication and the often invisible patterns that connect people — or create distance between them.',
+      'His approach is shaped by a powerful combination of storytelling, teaching and personal development. Just as every story is driven by underlying motives, roles and conflicts, relationships too carry old beliefs, family dynamics and recurring patterns.',
+    ],
+    eeEyebrow: 'Embrace Evolve', eeTitle: 'Embrace what is. Evolve into who you are.',
+    ee: [
+      'Embrace Evolve stands for the natural movement of receiving and growing, of turning inward and moving outward. That movement is everywhere: in our breath, the rhythm of our heart, the tides, the cycles of the moon and every phase of change in our lives.',
+      'Embrace means to welcome: yourself, your story, your relationships and reality as it is right now. Not as resignation, but as a loving first step. The way the earth receives a seed, a mother holds her child, or a flower opens.',
+      'From that acceptance, room appears for Evolve: to develop, unfold and become more aware. You discover what is truly yours, let go of patterns that no longer serve you and grow towards a life that fits better with who you are.',
+      'At Embrace Evolve we believe that lasting change does not begin with improving yourself, but with meeting yourself. Only when you embrace what is can you move more freely towards what becomes possible.',
+    ],
+    altJ: 'Jessica Abicht', altG: 'Gert Embrechts', altEE: 'Jessica and Gert', altPad: 'Jessica on the forest path',
+  },
+}[locale];
+---
+<Base locale={locale} title={copy.title} description={copy.description} routeKey="over">
+  <PageIntro eyebrow={copy.eyebrow} title={copy.title} lede={copy.lede} />
+
+  <section class="section--tight">
+    <div class="wrap person">
+      <div class="frame frame--3x4"><img src="/images/jessica-portret.jpg" alt={copy.altJ} /></div>
+      <div>
+        <h2 class="display">{copy.jName}</h2>
+        <p class="eyebrow muted role">{copy.jRole}</p>
+        <div class="stack">{copy.j.map((x) => <p>{x}</p>)}</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section band">
+    <div class="wrap person person--reverse">
+      <div>
+        <h2 class="display">{copy.gName}</h2>
+        <p class="eyebrow muted role">{copy.gRole}</p>
+        <div class="stack">{copy.g.map((x) => <p>{x}</p>)}</div>
+      </div>
+      <div class="frame frame--3x4"><img src="/images/gert-portret.jpg" alt={copy.altG} loading="lazy" /></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <SectionHeading eyebrow={copy.eeEyebrow} title={copy.eeTitle} align="center" />
+      <div class="ee">
+        <div class="frame frame--4x3"><img src="/images/jessica-gert.jpg" alt={copy.altEE} loading="lazy" /></div>
+        <div class="stack">{copy.ee.map((x) => <p>{x}</p>)}<p><a class="arrow-link" href={route('contact', locale)}>{tr('cta.contact')}</a></p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section--tight">
+    <div class="wrap"><div class="frame frame--21x9"><img src="/images/jessica-bospad.jpg" alt={copy.altPad} loading="lazy" /></div></div>
+  </section>
+</Base>
+<style>
+  .person { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(2rem, 5vw, 5rem); align-items: start; }
+  .person--reverse { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); }
+  .role { margin: 0.8rem 0 1.6rem; }
+  .ee { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(2rem, 5vw, 5rem); align-items: start; }
+  @media (max-width: 56rem) {
+    .person, .person--reverse, .ee { grid-template-columns: minmax(0, 1fr); }
+    .person--reverse > :first-child { order: 2; }
+  }
+</style>

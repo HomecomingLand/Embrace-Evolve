@@ -1,0 +1,22 @@
+---
+/**
+ * Tifawine-style section heading: serif title with a short hairline under it.
+ * Use `align="center"` with an eyebrow for the "EAT & DRINK / Food on the table"
+ * pattern, default left for the "Kasbah" pattern.
+ */
+interface Props { title: string; eyebrow?: string; align?: 'left' | 'center'; as?: 'h1' | 'h2' | 'h3'; class?: string; }
+const { title, eyebrow, align = 'left', as: Tag = 'h2', class: cls } = Astro.props;
+---
+<div class:list={['sh', `sh--${align}`, cls]}>
+  {eyebrow && <p class="eyebrow sh__eyebrow">{eyebrow}</p>}
+  <Tag class="display sh__title">{title}</Tag>
+  <span class="sh__rule" aria-hidden="true"></span>
+</div>
+
+<style>
+  .sh { margin-bottom: clamp(1.5rem, 3vw, 2.5rem); }
+  .sh--center { text-align: center; }
+  .sh__eyebrow { margin-bottom: 0.9rem; color: var(--ink-soft); }
+  .sh__rule { display: block; width: 3.5rem; height: 1px; background: var(--ink); margin-top: 1rem; }
+  .sh--center .sh__rule { margin-inline: auto; }
+</style>

@@ -1,0 +1,20 @@
+---
+/** Compact page header for inner pages: eyebrow + serif title + optional lede, on paper. */
+interface Props { title: string; eyebrow?: string; lede?: string; }
+const { title, eyebrow, lede } = Astro.props;
+---
+<section class="intro section--tight">
+  <div class="wrap">
+    {eyebrow && <p class="eyebrow muted intro__eyebrow">{eyebrow}</p>}
+    <h1 class="display intro__title">{title}</h1>
+    <span class="intro__rule" aria-hidden="true"></span>
+    {lede && <p class="lede intro__lede measure">{lede}</p>}
+  </div>
+</section>
+
+<style>
+  .intro { padding-top: calc(var(--space-section-sm) + 1rem); padding-bottom: var(--space-section-sm); }
+  .intro__eyebrow { margin-bottom: 0.9rem; }
+  .intro__rule { display: block; width: 3.5rem; height: 1px; background: var(--ink); margin-top: 1rem; }
+  .intro__lede { margin-top: 1.5rem; }
+</style>

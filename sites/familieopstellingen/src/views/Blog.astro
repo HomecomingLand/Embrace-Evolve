@@ -1,0 +1,35 @@
+---
+import Base from '../layouts/Base.astro';
+import PageIntro from '@opstellingen/shared/components/PageIntro.astro';
+import { getCollection } from 'astro:content';
+import { t, route, formatDate, type Locale } from '../i18n';
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const tr = t(locale);
+const posts = (await getCollection('posts', (p) => p.data.lang === locale && !p.data.draft)).sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+const copy = {
+  nl: { title: 'Blog', description: 'Artikels over familieopstellingen, systemisch werk en de praktijk van een opstellingsdag.', eyebrow: 'Lezen', lede: 'Over opstellingen, systemisch werk en wat er zoal gebeurt op een opstellingsdag.' },
+  en: { title: 'Blog', description: 'Articles on family constellations, systemic work and what happens on a constellation day.', eyebrow: 'Reading', lede: 'On constellations, systemic work and what happens on a constellation day.' },
+}[locale];
+---
+<Base locale={locale} title={copy.title} description={copy.description} routeKey="blog">
+  <PageIntro eyebrow={copy.eyebrow} title={copy.title} lede={copy.lede} />
+  <section class="section--tight">
+    <div class="wrap grid grid--3 posts">
+      {posts.map((p) => { const href = `${route('blog', locale)}${p.id.split('/').pop()}/`; return (
+        <article class="post">
+          <a class="frame frame--4x3" href={href}><img src={p.data.image ?? '/images/placeholder.svg'} alt={p.data.imageAlt ?? ''} loading="lazy" /></a>
+          <p class="eyebrow muted"><time datetime={p.data.date.toISOString().slice(0,10)}>{formatDate(p.data.date, locale, { day: 'numeric', month: 'long', year: 'numeric' })}</time></p>
+          <h2 class="display-sm"><a href={href}>{p.data.title}</a></h2>
+          <p class="small">{p.data.description}</p>
+          <a class="arrow-link" href={href}>{tr('blog.more')}</a>
+        </article>
+      ); })}
+    </div>
+  </section>
+</Base>
+<style>
+  .posts { gap: clamp(1.5rem, 4vw, 3.5rem); padding-bottom: var(--space-section-sm); }
+  .post { display: grid; gap: 0.6rem; align-content: start; }
+  .post .frame { margin-bottom: 0.6rem; }
+</style>

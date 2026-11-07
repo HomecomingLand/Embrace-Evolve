@@ -1,0 +1,49 @@
+/*
+  THEME for website 1 — Familieopstellingen door Jessica Abicht.
+  Look & feel modelled on tifawine.ma: warm sand, off-white paper, black type,
+  Cormorant Garamond for display, a Futura-style geometric sans (Jost) for text.
+  To re-skin a sibling site, copy this file and change the values only.
+*/
+:root {
+  /* colour */
+  --paper: #f7f3ef;          /* page background (Tifawine: #f3eeea / white) */
+  --paper-2: #ffffff;        /* alternate section background */
+  --sand: #b69984;           /* Tifawine sand */
+  --sand-25: #ede5e0;        /* sand at 25% on white: soft bands */
+  --sand-50: #dacbbf;
+  --clay: #a26d57;           /* Tifawine terracotta brown: accents, hover */
+  --moss: #549183;           /* Tifawine green-teal: tiny accent (links in text, focus) */
+  --ink: #141210;            /* near-black text */
+  --ink-soft: #5e5752;       /* secondary text */
+  --line: #e6ddd6;           /* hairlines */
+  --line-strong: #c9b7a9;
+  --accent: var(--clay);
+  --on-accent: #ffffff;
+  --on-sand: #141210;
+
+  /* type */
+  --font-display: 'Cormorant Garamond', 'Cormorant', Georgia, 'Times New Roman', serif;
+  --font-body: 'Jost', 'Futura', 'Century Gothic', 'Helvetica Neue', Arial, sans-serif;
+  --display-weight: 500;
+  --text-base: 1.0625rem;      /* 17px, like Tifawine */
+  --leading-body: 1.55;
+  --text-small: 0.9375rem;
+  --text-eyebrow: 0.8125rem;   /* 13px uppercase labels */
+  --text-lede: 1.3125rem;
+  --text-display-sm: clamp(1.5rem, 1.2rem + 1vw, 1.875rem);   /* h3: 24-30px */
+  --text-display: clamp(2.25rem, 1.6rem + 2.2vw, 3.25rem);    /* h2: 36-52px (Tifawine 48px) */
+  --text-display-xl: clamp(2.75rem, 2rem + 3.5vw, 4.75rem);   /* hero */
+  --tracking-wide: 0.14em;
+
+  /* space */
+  --gutter: clamp(1rem, 4vw, 3rem);
+  --gap: clamp(1.25rem, 2.5vw, 2.5rem);
+  --space-section: clamp(4rem, 8vw, 7.5rem);
+  --space-section-sm: clamp(2.5rem, 5vw, 4.5rem);
+  --measure: 44rem;
+  --measure-wide: 82rem;
+
+  /* shape: Tifawine is all straight edges */
+  --radius-btn: 0;
+  --radius-field: 0;
+}

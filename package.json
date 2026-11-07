@@ -1,0 +1,18 @@
+{
+  "name": "website-opstellingen",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Monorepo for the three Embrace Evolve websites (shared base, distinct branding per site).",
+  "workspaces": [
+    "packages/*",
+    "sites/*"
+  ],
+  "scripts": {
+    "dev": "npm run dev --workspace sites/familieopstellingen",
+    "build": "npm run build --workspaces --if-present",
+    "preview": "npm run preview --workspace sites/familieopstellingen"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

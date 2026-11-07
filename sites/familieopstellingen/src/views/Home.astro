@@ -1,0 +1,268 @@
+---
+/**
+ * HOME — the brief's copy, laid out in the Tifawine rhythm:
+ * hero → intro split → photo collage → full-width banner → two offer cards →
+ * centred "what participants experience" → agenda teaser → closing CTA on a photo.
+ */
+import Base from '../layouts/Base.astro';
+import Hero from '@opstellingen/shared/components/Hero.astro';
+import SectionHeading from '@opstellingen/shared/components/SectionHeading.astro';
+import EventCard from '../components/EventCard.astro';
+import { getCollection } from 'astro:content';
+import { t, route, formatDate, type Locale } from '../i18n';
+
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const tr = t(locale);
+
+const events = (await getCollection('events', (e) => e.data.lang === locale && !e.data.draft && e.data.date >= new Date(Date.now() - 86400000)))
+  .sort((a, b) => a.data.date.getTime() - b.data.date.getTime())
+  .slice(0, 3);
+
+const copy = {
+  nl: {
+    title: 'Familieopstellingen door Jessica Abicht',
+    description: 'Doorbreek patronen en creëer balans. Familieopstellingen in groep of privé, in alle veiligheid, op Homecoming Land in Brasschaat.',
+    heroTitle: 'Familieopstellingen',
+    heroSub: 'door Jessica Abicht · Brasschaat',
+    s1Title: 'Doorbreek patronen & creëer balans',
+    s1: [
+      'Voel je dat er in je leven dingen gebeuren die je niet kunt verklaren? Heb je de indruk dat je tegen een onzichtbare muur aanloopt, ondanks al je inspanningen? Of merk je dat je onbewust patronen uit je familiesysteem herhaalt waar je eigenlijk vanaf wilt?',
+      'Zonder dat we ons er bewust van zijn, worden we een groot deel van ons leven gedreven door dynamieken die vaak niet van onszelf zijn. Belastende familiepatronen, oude conflicten en onbewuste overtuigingen kunnen ongemerkt invloed hebben op je keuzes en je welzijn. Dit kan zich uiten in terugkerende problemen, stress, een gevoel van stagnatie, verslavingen of zelfs fysieke aandoeningen.',
+      'Familieopstellingen bieden een krachtige én gevoelige manier om deze onzichtbare dynamieken zichtbaar te maken. Door de verborgen patronen in kaart te brengen, ontstaat er ruimte om met nieuwe ogen naar je leven te kijken. Het nodigt uit tot diep voelen, helende bewegingen en het herstellen van de balans. Je oefent in het uitspreken van wat uitgesproken dient te worden. Zo maak je plaats voor een leven waarin je in vrijheid jezelf kunt zijn.',
+    ],
+    s2Title: 'In alle veiligheid op weg naar inzicht en heling',
+    s2: 'Met meer dan 30 jaar ervaring als holistisch therapeut en systemisch coach begeleid ik je met warmte, heldere intuïtie en expertise bij het doorbreken van destructieve patronen.',
+    s2Link: 'Over Jessica en Gert',
+    s3Eyebrow: 'Afhankelijk van jouw behoefte',
+    s3Title: 'Twee vormen van opstellingen',
+    groepTitle: 'Opstellingen in groep',
+    groep: 'Hier ervaar je de kracht van het collectief. De drie posities — vraagsteller, representant en toeschouwer — hebben elk hun eigen waarde. Je onderzoekt je levensvragen, ervaart de kracht van kwetsbaarheid en ontvangt de vaak onverwachte warmte van de groep. Je komt zo terug in jezelf en in je systeem. Groepen variëren tussen de 12 en 20 deelnemers.',
+    priveTitle: 'Privéopstellingen',
+    prive: 'In een privé-sessie staan jij en jouw vraag centraal. Je bent de enige vraagsteller, waardoor er alle ruimte is om in één sessie meerdere vragen te onderzoeken. In alle vertrouwelijkheid en veiligheid diepen we jouw persoonlijke thema’s uit.',
+    s4Title: 'Wat deelnemers ervaren',
+    quotes: [
+      { q: 'Het was een ongelofelijk waardevolle, magische dag waarop ik ten volste durfde voelen en me te uiten. De familieopstelling bracht een belangrijke beweging in mij teweeg.', who: 'Björg (27), jobcoach' },
+      { q: 'Jessica handelt vanuit een zeer onderlegde bagage aan wijsheid! Mijn vooroordelen werden in enkele uren geledigd en gevuld met respect.', who: 'Jan (71), leraar & voetbaltrainer' },
+      { q: 'Ik voelde me vanaf het begin veilig en gedragen. De inzichten die naar boven kwamen waren diepgaand en transformerend. Door Jessica’s warme aanwezigheid, heldere intuïtie en zachte, krachtige begeleiding, kon ik lagen aanraken die ik anders niet durfde aan te kijken.', who: 'Els (41), HR manager' },
+    ],
+    s5Eyebrow: 'Agenda',
+    s5Title: 'Komende opstellingsdagen',
+    s6Eyebrow: 'Homecoming Land',
+    s6Title: 'Een plek om thuis te komen',
+    s6: 'De opstellingen vinden plaats in het vernieuwde paviljoen op Homecoming Land in Brasschaat: een stille plek tussen de bomen, op een boogscheut van Antwerpen.',
+    s6Link: 'Locatie & route',
+    ctaTitle: 'Klaar voor een nieuwe beweging?',
+    cta: 'Gun jezelf de ruimte om te helen en de balans te herstellen. Of je nu kiest voor de dynamiek van een groep of de privacy van een individuele sessie, ik begeleid je met zorg en wijsheid.',
+    alt: {
+      hero: 'Ochtendlicht door de bomen op Homecoming Land',
+      clearing: 'Open plek in het bos',
+      logs: 'Gestapeld brandhout tussen de varens',
+      bark: 'Schors van een den',
+      fire: 'Vuurschaal in de avond',
+      lily: 'Waterlelie in de vijver',
+      banner: 'De tuin van Homecoming Land in de ochtendmist',
+      groep: 'Stoelen in de kring, in de ochtendzon',
+      prive: 'Twee handen die elkaar vasthouden tijdens een opstelling',
+      sessie: 'Jessica tijdens een opstelling',
+      cta: 'Avondrood boven de dennen',
+    },
+  },
+  en: {
+    title: 'Family Constellations by Jessica Abicht',
+    description: 'Break patterns and create balance. Family constellations in a group or privately, in complete safety, at Homecoming Land in Brasschaat near Antwerp.',
+    heroTitle: 'Family Constellations',
+    heroSub: 'by Jessica Abicht · Brasschaat',
+    s1Title: 'Break patterns & create balance',
+    s1: [
+      'Do you feel that things happen in your life you cannot explain? Do you have the impression that you keep running into an invisible wall, despite all your efforts? Or do you notice that you unconsciously repeat patterns from your family system you would rather leave behind?',
+      'Without being aware of it, much of our life is driven by dynamics that are often not our own. Burdening family patterns, old conflicts and unconscious beliefs can quietly influence our choices and our wellbeing. This can show up as recurring problems, stress, a sense of stagnation, addictions or even physical complaints.',
+      'Family constellations offer a powerful and, at the same time, sensitive way to make these invisible dynamics visible. By mapping the hidden patterns, room appears to look at your life with new eyes. It invites deep feeling, healing movements and the restoring of balance. You practise saying what needs to be said. And so you make room for a life in which you can freely be yourself.',
+    ],
+    s2Title: 'Safely on your way to insight and healing',
+    s2: 'With more than 30 years of experience as a holistic therapist and systemic coach, I guide you with warmth, clear intuition and expertise in breaking destructive patterns.',
+    s2Link: 'About Jessica and Gert',
+    s3Eyebrow: 'Depending on what you need',
+    s3Title: 'Two forms of constellations',
+    groepTitle: 'Group constellations',
+    groep: 'Here you experience the power of the collective. The three positions — questioner, representative and observer — each have their own value. You explore your life questions, experience the strength of vulnerability and receive the often unexpected warmth of the group. You return to yourself and to your system. Groups vary between 12 and 20 participants.',
+    priveTitle: 'Private constellations',
+    prive: 'In a private session, you and your question take centre stage. You are the only questioner, so there is room to explore several questions in one session. In complete confidentiality and safety, we go deeper into your personal themes.',
+    s4Title: 'What participants experience',
+    quotes: [
+      { q: 'It was an incredibly valuable, magical day on which I dared to feel and express myself fully. The family constellation set an important movement in motion in me.', who: 'Björg (27), job coach' },
+      { q: 'Jessica works from a deeply grounded wealth of wisdom! Within a few hours my prejudices were emptied out and filled with respect.', who: 'Jan (71), teacher & football coach' },
+      { q: 'I felt safe and held from the very beginning. The insights that surfaced were profound and transformative. Thanks to Jessica’s warm presence, clear intuition and gentle, powerful guidance, I could touch layers I would not otherwise have dared to look at.', who: 'Els (41), HR manager' },
+    ],
+    s5Eyebrow: 'Dates',
+    s5Title: 'Upcoming constellation days',
+    s6Eyebrow: 'Homecoming Land',
+    s6Title: 'A place to come home to',
+    s6: 'The constellations take place in the renovated pavilion at Homecoming Land in Brasschaat: a quiet place among the trees, a stone’s throw from Antwerp.',
+    s6Link: 'Location & directions',
+    ctaTitle: 'Ready for a new movement?',
+    cta: 'Give yourself the room to heal and restore balance. Whether you choose the dynamics of a group or the privacy of an individual session, I guide you with care and wisdom.',
+    alt: {
+      hero: 'Morning light through the trees at Homecoming Land',
+      clearing: 'A clearing in the woods',
+      logs: 'Stacked firewood among the ferns',
+      bark: 'Pine bark',
+      fire: 'Fire bowl in the evening',
+      lily: 'Water lily in the pond',
+      banner: 'The garden at Homecoming Land in the morning mist',
+      groep: 'Chairs in a circle in the morning sun',
+      prive: 'Two hands holding each other during a constellation',
+      sessie: 'Jessica during a constellation',
+      cta: 'Evening sky above the pines',
+    },
+  },
+}[locale];
+---
+<Base locale={locale} title={copy.title} description={copy.description} routeKey="home" transparentNav>
+  <Hero image="/images/hero-home.jpg" alt={copy.alt.hero} title={copy.heroTitle} subtitle={copy.heroSub} tall focus="center 40%" />
+
+  <!-- 1. Intro: heading left, copy right (Tifawine "Kasbah") -->
+  <section class="section">
+    <div class="wrap split">
+      <SectionHeading title={copy.s1Title} />
+      <div class="stack">
+        {copy.s1.map((p) => <p>{p}</p>)}
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. Photo collage (Tifawine's mixed-size grid) -->
+  <section class="section--tight">
+    <div class="wrap collage">
+      <div class="frame collage__a"><img src="/images/collage-open-plek.jpg" alt={copy.alt.clearing} loading="lazy" /></div>
+      <div class="frame collage__b"><img src="/images/collage-schors.jpg" alt={copy.alt.bark} loading="lazy" /></div>
+      <div class="frame collage__c"><img src="/images/collage-waterlelie.jpg" alt={copy.alt.lily} loading="lazy" /></div>
+      <div class="frame collage__d"><img src="/images/collage-houtstapel.jpg" alt={copy.alt.logs} loading="lazy" /></div>
+      <div class="frame collage__e"><img src="/images/collage-vuur.jpg" alt={copy.alt.fire} loading="lazy" /></div>
+    </div>
+  </section>
+
+  <!-- 3. Full-width banner -->
+  <section class="section--tight">
+    <div class="wrap"><div class="frame frame--21x9"><img src="/images/banner-tuin-mist.jpg" alt={copy.alt.banner} loading="lazy" /></div></div>
+  </section>
+
+  <!-- 4. Safety / about teaser: photo + text -->
+  <section class="section">
+    <div class="wrap split split--photo">
+      <div class="frame frame--3x4"><img src="/images/jessica-sessie.jpg" alt={copy.alt.sessie} loading="lazy" /></div>
+      <div>
+        <SectionHeading title={copy.s2Title} />
+        <p class="lede">{copy.s2}</p>
+        <p><a class="arrow-link" href={route('over', locale)}>{copy.s2Link}</a></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. Two offers: centred eyebrow + title (Tifawine "EAT & DRINK"), two photo cards -->
+  <section class="section band">
+    <div class="wrap">
+      <SectionHeading eyebrow={copy.s3Eyebrow} title={copy.s3Title} align="center" />
+      <div class="grid grid--2 offers">
+        <article class="offer">
+          <div class="frame frame--4x3"><img src="/images/groep-stoelen.jpg" alt={copy.alt.groep} loading="lazy" /></div>
+          <h3 class="display-sm">{copy.groepTitle}</h3>
+          <p>{copy.groep}</p>
+          <a class="arrow-link" href={route('agenda', locale)}>{tr('cta.data')}</a>
+        </article>
+        <article class="offer">
+          <div class="frame frame--4x3"><img src="/images/prive-handen.jpg" alt={copy.alt.prive} loading="lazy" /></div>
+          <h3 class="display-sm">{copy.priveTitle}</h3>
+          <p>{copy.prive}</p>
+          <a class="arrow-link" href={route('contact', locale)}>{tr('cta.prive')}</a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. Testimonials -->
+  <section class="section">
+    <div class="wrap">
+      <SectionHeading title={copy.s4Title} align="center" />
+      <div class="grid grid--3 quotes">
+        {copy.quotes.map((x) => (
+          <blockquote class="quote">
+            <p class="quote__text">“{x.q}”</p>
+            <footer class="eyebrow muted">— {x.who}</footer>
+          </blockquote>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. Agenda teaser -->
+  <section class="section band">
+    <div class="wrap">
+      <SectionHeading eyebrow={copy.s5Eyebrow} title={copy.s5Title} />
+      {events.length > 0 ? (
+        <div class="grid grid--3">{events.map((e) => <EventCard event={e} locale={locale} />)}</div>
+      ) : (
+        <p class="measure">{tr('agenda.none')}</p>
+      )}
+      <p class="agenda-more"><a class="arrow-link" href={route('agenda', locale)}>{tr('cta.alle-data')}</a></p>
+    </div>
+  </section>
+
+  <!-- 8. Location teaser -->
+  <section class="section">
+    <div class="wrap split split--photo split--reverse">
+      <div>
+        <SectionHeading eyebrow={copy.s6Eyebrow} title={copy.s6Title} />
+        <p class="lede">{copy.s6}</p>
+        <p><a class="arrow-link" href={route('locatie', locale)}>{copy.s6Link}</a></p>
+      </div>
+      <div class="frame frame--4x3"><img src="/images/locatie-poort.jpg" alt="Homecoming Land, Bredabaan 1251" loading="lazy" /></div>
+    </div>
+  </section>
+
+  <!-- 9. Closing CTA on a photo -->
+  <section class="cta">
+    <img class="cta__img" src="/images/cta-avondrood.jpg" alt={copy.alt.cta} loading="lazy" />
+    <div class="cta__scrim" aria-hidden="true"></div>
+    <div class="wrap cta__content">
+      <h2 class="display cta__title">{copy.ctaTitle}</h2>
+      <p class="lede measure">{copy.cta}</p>
+      <div class="cta__actions">
+        <a class="btn btn--light" href={route('agenda', locale)}>{tr('cta.data')}</a>
+        <a class="btn btn--light" href={route('contact', locale)}>{tr('cta.prive')}</a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .split--photo { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); align-items: center; gap: clamp(2rem, 5vw, 5rem); }
+  .split--reverse { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); }
+  .collage { display: grid; grid-template-columns: repeat(12, 1fr); grid-auto-rows: 9vw; gap: var(--gap); }
+  .collage__a { grid-column: 1 / span 4; grid-row: 1 / span 2; }
+  .collage__b { grid-column: 5 / span 2; grid-row: 1 / span 1; }
+  .collage__c { grid-column: 7 / span 2; grid-row: 1 / span 1; }
+  .collage__d { grid-column: 9 / span 4; grid-row: 1 / span 2; }
+  .collage__e { grid-column: 5 / span 4; grid-row: 2 / span 1; }
+  .offers { gap: clamp(1.5rem, 4vw, 4rem); }
+  .offer h3 { margin: 1.4rem 0 0.8rem; }
+  .offer p { margin-bottom: 1.2rem; }
+  .quotes { gap: clamp(1.5rem, 4vw, 3.5rem); }
+  .quote { margin: 0; }
+  .quote__text { font-family: var(--font-display); font-size: 1.35rem; line-height: 1.4; font-weight: 500; }
+  .quote footer { margin-top: 1rem; }
+  .agenda-more { margin-top: 2rem; }
+  .cta { position: relative; color: #fff; text-align: center; overflow: hidden; }
+  .cta__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .cta__scrim { position: absolute; inset: 0; background: rgba(20, 18, 16, 0.45); }
+  .cta__content { position: relative; padding-block: var(--space-section); display: grid; justify-items: center; gap: 1.5rem; }
+  .cta__title { color: #fff; }
+  .cta__actions { display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center; margin-top: 0.5rem; }
+  @media (max-width: 56rem) {
+    .split--photo, .split--reverse { grid-template-columns: minmax(0, 1fr); }
+    .split--reverse > :first-child { order: 2; }
+    .collage { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 36vw; }
+    .collage__a, .collage__b, .collage__c, .collage__d, .collage__e { grid-column: auto; grid-row: auto; }
+    .collage__a, .collage__d { grid-column: span 2; }
+  }
+</style>

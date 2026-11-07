@@ -1,0 +1,12 @@
+{
+  "name": "@opstellingen/shared",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Shared layout components, i18n helpers and base CSS used by every site in this repo.",
+  "exports": {
+    "./i18n": "./src/i18n.ts",
+    "./css/base.css": "./src/css/base.css",
+    "./components/*": "./src/components/*"
+  }
+}

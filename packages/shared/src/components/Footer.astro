@@ -1,0 +1,65 @@
+---
+/**
+ * Footer: four quiet columns on a sand band, then a hairline and legal line.
+ * All strings come in as props so each site/language can fill them.
+ */
+interface Link { label: string; href: string; external?: boolean; }
+interface Props {
+  brand: string;
+  tagline: string;
+  columns: { title: string; links: Link[] }[];
+  addressLines: string[];
+  contactLines: { label: string; href?: string }[];
+  legal: string;
+  siblingsTitle?: string;
+  siblings?: Link[];
+}
+const { brand, tagline, columns, addressLines, contactLines, legal, siblingsTitle, siblings = [] } = Astro.props;
+---
+<footer class="footer band">
+  <div class="wrap footer__grid">
+    <div class="footer__brand">
+      <p class="footer__wordmark">{brand}</p>
+      <p class="small muted">{tagline}</p>
+    </div>
+    {columns.map((c) => (
+      <div>
+        <p class="eyebrow footer__title">{c.title}</p>
+        <ul class="footer__list">
+          {c.links.map((l) => (<li><a href={l.href} target={l.external ? '_blank' : undefined} rel={l.external ? 'noopener' : undefined}>{l.label}</a></li>))}
+        </ul>
+      </div>
+    ))}
+    <div>
+      <p class="eyebrow footer__title">{addressLines[0]}</p>
+      <ul class="footer__list">
+        {addressLines.slice(1).map((a) => (<li>{a}</li>))}
+        {contactLines.map((c) => (<li>{c.href ? <a href={c.href}>{c.label}</a> : c.label}</li>))}
+      </ul>
+    </div>
+  </div>
+  {siblings.length > 0 && (
+    <div class="wrap footer__siblings">
+      <p class="eyebrow footer__title">{siblingsTitle}</p>
+      <ul class="footer__list footer__list--inline">
+        {siblings.map((s) => (<li><a href={s.href} target="_blank" rel="noopener">{s.label}</a></li>))}
+      </ul>
+    </div>
+  )}
+  <div class="wrap footer__legal small muted"><hr /><p>{legal}</p></div>
+</footer>
+
+<style>
+  .footer { padding-block: var(--space-section-sm) 2rem; }
+  .footer__grid { display: grid; grid-template-columns: 1.4fr repeat(3, 1fr); gap: var(--gap); }
+  .footer__wordmark { font-family: var(--font-display); font-size: 1.6rem; letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 0.5rem; }
+  .footer__title { margin-bottom: 0.9rem; }
+  .footer__list { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.45rem; font-size: var(--text-small); }
+  .footer__list a:hover { text-decoration: underline; text-underline-offset: 0.3em; }
+  .footer__list--inline { display: flex; flex-wrap: wrap; gap: 0.5rem 2rem; }
+  .footer__siblings { margin-top: var(--space-section-sm); }
+  .footer__legal { margin-top: var(--space-section-sm); }
+  .footer__legal hr { border-top-color: var(--line-strong); margin-bottom: 1rem; }
+  @media (max-width: 56rem) { .footer__grid { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 36rem) { .footer__grid { grid-template-columns: 1fr; } .footer__wordmark { font-size: 1.1rem; letter-spacing: 0.16em; } }
+</style>

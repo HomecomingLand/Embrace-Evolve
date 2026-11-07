@@ -1,0 +1,86 @@
+---
+import Base from '../layouts/Base.astro';
+import PageIntro from '@opstellingen/shared/components/PageIntro.astro';
+import SectionHeading from '@opstellingen/shared/components/SectionHeading.astro';
+import { site } from '../site.config';
+import { t, type Locale } from '../i18n';
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const tr = t(locale);
+const copy = {
+  nl: {
+    title: 'Locatie & route', description: 'De opstellingen vinden plaats op Homecoming Land, Bredabaan 1251 in Brasschaat. Zo geraak je er met de auto, de fiets of het openbaar vervoer.',
+    eyebrow: 'Homecoming Land', lede: 'Een stille plek tussen de bomen aan de rand van Brasschaat, op een kwartier van Antwerpen. De opstellingsdagen gaan door in het vernieuwde paviljoen.',
+    adresTitle: 'Adres',
+    routeTitle: 'Hoe geraak je er?',
+    route: [
+      { h: 'Met de auto', p: 'Homecoming Land ligt aan de Bredabaan (N1), de hoofdweg van Antwerpen naar Breda, voorbij het centrum van Brasschaat. Volg de Bredabaan tot nummer 1251; je herkent de ingang aan de witte poortpijlers.' },
+      { h: 'Met het openbaar vervoer', p: 'Vanuit Antwerpen rijden er De Lijn-bussen over de Bredabaan richting Brasschaat en verder. Plan je rit via delijn.be en stap af aan de halte het dichtst bij nummer 1251.' },
+      { h: 'Met de fiets', p: 'Vanuit het centrum van Antwerpen is het een rechte, vlakke rit van een twaalftal kilometer langs de Bredabaan. Je fiets kan op het domein.' },
+      { h: 'Parkeren', p: 'Je kan parkeren op het domein. Kom je met meerdere mensen, overweeg dan om samen te rijden: zo blijft het rustig aan de ingang.' },
+    ],
+    dagTitle: 'Een opstellingsdag op Homecoming Land',
+    dag: ['Je wordt onthaald met iets warms. Tijdens specials voorzien we verwarmende dranken, heerlijke snacks en een zelfgemaakte warme biologische maaltijd.', 'Breng comfortabele kleding mee, warme sokken en eventueel een sjaal of deken. Een notitieboekje kan fijn zijn om na afloop iets vast te houden.', 'Wil je graag iemand meebrengen? Elke deelnemer schrijft zich afzonderlijk in, zodat we de groep goed kunnen samenstellen.'],
+    mapsBtn: 'Open in Google Maps',
+    alt1: 'De poort van Homecoming Land, Bredabaan 1251', alt2: 'Het bos op Homecoming Land', alt3: 'De tuin op Homecoming Land',
+  },
+  en: {
+    title: 'Location & directions', description: 'The constellations take place at Homecoming Land, Bredabaan 1251 in Brasschaat. How to get there by car, bike or public transport.',
+    eyebrow: 'Homecoming Land', lede: 'A quiet place among the trees on the edge of Brasschaat, fifteen minutes from Antwerp. The constellation days take place in the renovated pavilion.',
+    adresTitle: 'Address',
+    routeTitle: 'How to get there',
+    route: [
+      { h: 'By car', p: 'Homecoming Land is on the Bredabaan (N1), the main road from Antwerp to Breda, just past the centre of Brasschaat. Follow the Bredabaan to number 1251; you will recognise the entrance by its white gate pillars.' },
+      { h: 'By public transport', p: 'From Antwerp, De Lijn buses run along the Bredabaan towards Brasschaat and beyond. Plan your trip on delijn.be and get off at the stop closest to number 1251.' },
+      { h: 'By bike', p: 'From the centre of Antwerp it is a straight, flat ride of about twelve kilometres along the Bredabaan. Bikes can be left on the grounds.' },
+      { h: 'Parking', p: 'You can park on the grounds. If several of you are coming, consider sharing a car so the entrance stays calm.' },
+    ],
+    dagTitle: 'A constellation day at Homecoming Land',
+    dag: ['You are welcomed with something warm. During specials we provide warming drinks, delicious snacks and a home-cooked, warm organic meal.', 'Bring comfortable clothes, warm socks and perhaps a scarf or blanket. A notebook can be nice to hold on to something afterwards.', 'Would you like to bring someone? Each participant registers separately so we can compose the group well.'],
+    mapsBtn: 'Open in Google Maps',
+    alt1: 'The gate of Homecoming Land, Bredabaan 1251', alt2: 'The woods at Homecoming Land', alt3: 'The garden at Homecoming Land',
+  },
+}[locale];
+const a = site.address;
+---
+<Base locale={locale} title={copy.title} description={copy.description} routeKey="locatie">
+  <PageIntro eyebrow={copy.eyebrow} title={copy.title} lede={copy.lede} />
+  <section class="section--tight">
+    <div class="wrap split split--photo">
+      <div class="frame frame--3x4"><img src="/images/locatie-poort.jpg" alt={copy.alt1} /></div>
+      <div>
+        <SectionHeading title={copy.adresTitle} />
+        <p class="lede address">{a.venue}<br />{a.street}<br />{a.postal} {a.city}<br />{locale === 'nl' ? a.country : a.countryEn}</p>
+        <p class="actions"><a class="btn btn--solid" href={site.mapsUrl} target="_blank" rel="noopener">{copy.mapsBtn}</a> <a class="btn" href={site.phoneHref}>{site.phone}</a></p>
+        <div class="map frame frame--16x9"><iframe title="Kaart" src={site.mapEmbed} loading="lazy" referrerpolicy="no-referrer"></iframe></div>
+      </div>
+    </div>
+  </section>
+  <section class="section band">
+    <div class="wrap split">
+      <SectionHeading title={copy.routeTitle} />
+      <dl class="facts">{copy.route.map((x) => (<div><dt class="eyebrow">{x.h}</dt><dd>{x.p}</dd></div>))}</dl>
+    </div>
+  </section>
+  <section class="section">
+    <div class="wrap split">
+      <SectionHeading title={copy.dagTitle} />
+      <div class="stack">{copy.dag.map((x) => <p>{x}</p>)}</div>
+    </div>
+  </section>
+  <section class="section--tight">
+    <div class="wrap grid grid--2 photos">
+      <div class="frame frame--4x3"><img src="/images/locatie-bos.jpg" alt={copy.alt2} loading="lazy" /></div>
+      <div class="frame frame--4x3"><img src="/images/locatie-tuin.jpg" alt={copy.alt3} loading="lazy" /></div>
+    </div>
+  </section>
+</Base>
+<style>
+  .split--photo { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); align-items: start; gap: clamp(2rem, 5vw, 5rem); }
+  .address { margin-bottom: 1.5rem; }
+  .actions { display: flex; flex-wrap: wrap; gap: 1rem; margin-bottom: 2rem; }
+  .map iframe { width: 100%; height: 100%; border: 0; filter: saturate(0.6); }
+  .facts { margin: 0; display: grid; gap: 1.5rem; } .facts dt { margin-bottom: 0.4rem; } .facts dd { margin: 0; }
+  .photos { padding-bottom: var(--space-section-sm); }
+  @media (max-width: 56rem) { .split--photo { grid-template-columns: minmax(0, 1fr); } }
+</style>

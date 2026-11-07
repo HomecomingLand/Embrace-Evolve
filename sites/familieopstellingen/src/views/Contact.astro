@@ -1,0 +1,45 @@
+---
+import Base from '../layouts/Base.astro';
+import PageIntro from '@opstellingen/shared/components/PageIntro.astro';
+import { site } from '../site.config';
+import { t, route, type Locale } from '../i18n';
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const tr = t(locale);
+const thanks = new URL(route('bedankt', locale), Astro.site).toString();
+const action = site.formEndpoint || route('bedankt', locale);
+const copy = {
+  nl: { title: 'Contact', description: 'Neem contact op met Jessica Abicht voor een privéopstelling of een vraag over een opstellingsdag.', eyebrow: 'Vragen of een privéopstelling', lede: 'Wil je een privéopstelling inplannen of heb je een vraag? Stuur een berichtje of bel gerust.', direct: 'Rechtstreeks', priveTitle: 'Privéopstelling', prive: 'Voor een privé-sessie zoeken we samen een moment. Laat weten welke dagen voor jou passen, dan stel ik iets voor.' },
+  en: { title: 'Contact', description: 'Get in touch with Jessica Abicht for a private constellation or a question about a constellation day.', eyebrow: 'Questions or a private constellation', lede: 'Would you like to schedule a private constellation or do you have a question? Send a message or just call.', direct: 'Directly', priveTitle: 'Private constellation', prive: 'For a private session we find a moment together. Let me know which days suit you and I will suggest something.' },
+}[locale];
+---
+<Base locale={locale} title={copy.title} description={copy.description} routeKey="contact">
+  <PageIntro eyebrow={copy.eyebrow} title={copy.title} lede={copy.lede} />
+  <section class="section--tight">
+    <div class="wrap split">
+      <div class="stack">
+        <p class="eyebrow">{copy.direct}</p>
+        <p><a href={`mailto:${site.email}`}>{site.email}</a><br /><a href={site.phoneHref}>{site.phone}</a></p>
+        <p class="small muted">{site.address.venue}<br />{site.address.street}<br />{site.address.postal} {site.address.city}</p>
+        <p class="eyebrow">{copy.priveTitle}</p>
+        <p>{copy.prive}</p>
+      </div>
+      <form class="form" name="contact" method="POST" action={action} data-netlify={site.formEndpoint ? undefined : 'true'} netlify-honeypot="bot-field" accept-charset="UTF-8">
+        <input type="hidden" name="form-name" value="contact" />
+        <input type="hidden" name="_next" value={thanks} />
+        <input type="hidden" name="taal" value={locale} />
+        <p class="visually-hidden"><label>Don’t fill this out: <input name="bot-field" /></label></p>
+        <div class="field"><label for="c-naam">{tr('form.name')} *</label><input id="c-naam" name="naam" type="text" required autocomplete="name" /></div>
+        <div class="field"><label for="c-email">{tr('form.email')} *</label><input id="c-email" name="email" type="email" required autocomplete="email" /></div>
+        <div class="field"><label for="c-tel">{tr('form.phone')}</label><input id="c-tel" name="telefoon" type="tel" autocomplete="tel" /></div>
+        <div class="field"><label for="c-msg">{tr('form.message')} *</label><textarea id="c-msg" name="bericht" required></textarea></div>
+        <div class="field field--check"><input id="c-consent" name="akkoord" type="checkbox" required value="ja" /><label for="c-consent">{tr('form.consent')}</label></div>
+        <p><button class="btn btn--solid" type="submit">{tr('form.submit.contact')}</button></p>
+      </form>
+    </div>
+  </section>
+</Base>
+<style>
+  .form { display: grid; gap: 1.2rem; }
+  .stack a { text-decoration: underline; text-underline-offset: 0.25em; }
+</style>

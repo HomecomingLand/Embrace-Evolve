@@ -1,0 +1,33 @@
+---
+import Base from '../layouts/Base.astro';
+import { render } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+import { t, route, formatDate, type Locale } from '../i18n';
+interface Props { locale: Locale; post: CollectionEntry<'posts'>; slugs: Partial<Record<Locale, string>>; }
+const { locale, post, slugs } = Astro.props;
+const tr = t(locale);
+const d = post.data;
+const { Content } = await render(post);
+---
+<Base locale={locale} title={d.title} description={d.description} routeKey="blog" slugs={slugs} ogImage={d.image}>
+  <article>
+    <header class="section--tight">
+      <div class="wrap--narrow center">
+        <p class="eyebrow muted"><time datetime={d.date.toISOString().slice(0,10)}>{formatDate(d.date, locale, { day: 'numeric', month: 'long', year: 'numeric' })}</time></p>
+        <h1 class="display">{d.title}</h1>
+        <p class="lede">{d.description}</p>
+      </div>
+    </header>
+    {d.image && <div class="wrap"><div class="frame frame--21x9"><img src={d.image} alt={d.imageAlt ?? ''} /></div></div>}
+    <div class="section--tight"><div class="wrap--narrow prose"><Content /></div></div>
+    <div class="wrap--narrow back"><a class="arrow-link" href={route('blog', locale)}>{tr('blog.all')}</a></div>
+  </article>
+</Base>
+<style>
+  header h1 { margin: 0.8rem 0 1.2rem; }
+  .prose :global(h2) { font-size: var(--text-display-sm); font-weight: 600; margin: 2rem 0 0.6rem; }
+  .prose :global(h3) { font-size: 1.25rem; font-weight: 600; margin: 1.6rem 0 0.4rem; }
+  .prose :global(p) { margin-bottom: 1.1em; }
+  .prose :global(a) { text-decoration: underline; text-underline-offset: 0.25em; }
+  .back { padding-bottom: var(--space-section); }
+</style>

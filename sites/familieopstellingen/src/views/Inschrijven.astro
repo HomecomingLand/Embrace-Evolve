@@ -1,0 +1,66 @@
+---
+import Base from '../layouts/Base.astro';
+import PageIntro from '@opstellingen/shared/components/PageIntro.astro';
+import { getCollection } from 'astro:content';
+import { site } from '../site.config';
+import { t, route, formatDate, type Locale } from '../i18n';
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const tr = t(locale);
+const events = (await getCollection('events', (e) => e.data.lang === locale && !e.data.draft && e.data.date >= new Date(Date.now() - 86400000) && e.data.status !== 'full' && e.data.status !== 'cancelled')).sort((a, b) => a.data.date.getTime() - b.data.date.getTime());
+const thanks = new URL(route('bedankt', locale), Astro.site).toString();
+const action = site.formEndpoint || route('bedankt', locale);
+const copy = {
+  nl: { title: 'Inschrijven', description: 'Schrijf je in voor een opstellingsdag op Homecoming Land of vraag een privéopstelling aan.', eyebrow: 'Deelnemen', lede: 'Laat je gegevens achter en kies een datum. Je ontvangt een bevestiging met alle praktische informatie.' },
+  en: { title: 'Register', description: 'Register for a constellation day at Homecoming Land or request a private constellation.', eyebrow: 'Take part', lede: 'Leave your details and choose a date. You will receive a confirmation with all practical information.' },
+}[locale];
+---
+<Base locale={locale} title={copy.title} description={copy.description} routeKey="inschrijven">
+  <PageIntro eyebrow={copy.eyebrow} title={copy.title} lede={copy.lede} />
+  <section class="section--tight">
+    <div class="wrap--narrow">
+      <form class="form" name="inschrijving" method="POST" action={action} data-netlify={site.formEndpoint ? undefined : 'true'} netlify-honeypot="bot-field" accept-charset="UTF-8">
+        <input type="hidden" name="form-name" value="inschrijving" />
+        <input type="hidden" name="_next" value={thanks} />
+        <input type="hidden" name="taal" value={locale} />
+        <p class="visually-hidden"><label>Don’t fill this out: <input name="bot-field" /></label></p>
+        <div class="grid grid--2">
+          <div class="field"><label for="naam">{tr('form.name')} *</label><input id="naam" name="naam" type="text" required autocomplete="name" /></div>
+          <div class="field"><label for="email">{tr('form.email')} *</label><input id="email" name="email" type="email" required autocomplete="email" /></div>
+        </div>
+        <div class="field"><label for="telefoon">{tr('form.phone')}</label><input id="telefoon" name="telefoon" type="tel" autocomplete="tel" /></div>
+        <div class="field">
+          <label for="event">{tr('form.event')} *</label>
+          <select id="event" name="datum" required data-event-select>
+            {events.map((e) => (<option value={e.data.key}>{formatDate(e.data.date, locale, { day: 'numeric', month: 'long', year: 'numeric' })} — {e.data.title}</option>))}
+            <option value="prive">{tr('form.event.prive')}</option>
+            <option value="anders">{tr('form.event.other')}</option>
+          </select>
+        </div>
+        <fieldset class="field fieldset">
+          <legend>{tr('form.role')}</legend>
+          <label class="radio"><input type="radio" name="rol" value="vraagsteller" /> {tr('form.role.vraagsteller')}</label>
+          <label class="radio"><input type="radio" name="rol" value="representant" /> {tr('form.role.representant')}</label>
+          <label class="radio"><input type="radio" name="rol" value="ter-plaatse" checked /> {tr('form.role.weetniet')}</label>
+        </fieldset>
+        <div class="field"><label for="vraag">{tr('form.question')}</label><textarea id="vraag" name="vraag"></textarea></div>
+        <div class="field field--check"><input id="consent" name="akkoord" type="checkbox" required value="ja" /><label for="consent">{tr('form.consent')}</label></div>
+        <p><button class="btn btn--solid" type="submit">{tr('form.submit')}</button></p>
+        <p class="small muted">{tr('form.note')}</p>
+      </form>
+    </div>
+  </section>
+</Base>
+<style>
+  .form { display: grid; gap: 1.4rem; }
+  .fieldset { border: 0; padding: 0; margin: 0; }
+  .fieldset legend { font-size: var(--text-small); font-weight: 500; margin-bottom: 0.5rem; }
+  .radio { display: flex; gap: 0.7em; align-items: start; padding: 0.3rem 0; font-size: var(--text-small); }
+  .radio input { margin-top: 0.3em; }
+</style>
+<script>
+  // Preselect the event when arriving from an event page (?event=key).
+  const key = new URLSearchParams(location.search).get('event');
+  const sel = document.querySelector<HTMLSelectElement>('[data-event-select]');
+  if (key && sel && [...sel.options].some((o) => o.value === key)) sel.value = key;
+</script>

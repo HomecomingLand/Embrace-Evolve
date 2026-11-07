@@ -1,0 +1,13 @@
+---
+import { getCollection } from 'astro:content';
+import EventDetail from '../../views/EventDetail.astro';
+export async function getStaticPaths() {
+  const all = await getCollection('events', (e) => !e.data.draft);
+  return all.filter((e) => e.data.lang === 'nl').map((e) => {
+    const other = all.find((x) => x.data.lang === 'en' && x.data.key === e.data.key);
+    return { params: { slug: e.id.split('/').pop() }, props: { event: e, slugs: { nl: e.id.split('/').pop(), en: other?.id.split('/').pop() } } };
+  });
+}
+const { event, slugs } = Astro.props;
+---
+<EventDetail locale="nl" event={event} slugs={slugs} />
