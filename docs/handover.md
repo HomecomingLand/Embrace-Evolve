@@ -39,7 +39,7 @@ They were resized to max 2000 px and stripped of EXIF (incl. GPS). Originals are
 | Collage | collage-open-plek / -schors / -waterlelie / -houtstapel / -vuur | IMG_2343, IMG_0839, IMG_1590, IMG_1139, IMG_2092 | textures of the place, like Tifawine's collage |
 | Banner | banner-tuin-mist.jpg | IMG_2355 | the garden in mist, very Tifawine; cropped to 21:9 and the parasol tip painted out with Higgsfield (GPT Image 2), only that patch is generated |
 | "In alle veiligheid" | jessica-sessie.jpg | Beeld IMG_9607 | Jessica at work, attentive |
-| Groep card | groep-stoelen.jpg | IMG_0781 | chairs in the sun, reads as a circle |
+| Groep card | groep-kring-bos.jpg | IMG_1925 | circle of chairs in the woods (homepage; Opstellingen page still uses groep-stoelen.jpg) |
 | Privé card | prive-handen.jpg | Beeld IMG_9549 | two hands, intimate and anonymous |
 | Location teaser + page | locatie-poort.jpg | Schermafbeelding (gate with 1251) | literally "how to get there" |
 | Closing CTA | cta-avondrood.jpg | IMG_1112 | dusk above the pines |
