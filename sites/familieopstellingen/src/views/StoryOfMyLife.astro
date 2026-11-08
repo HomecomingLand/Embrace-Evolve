@@ -1,0 +1,420 @@
+---
+/**
+ * THE STORY OF MY LIFE — writing course in five weekends (formerly "Meesterlijk Schrijven").
+ * Copy taken from the Pages document "Meesterlijk Schrijven"; English is a translation.
+ * Layout: hero → intro → "herken je dit?" → two text sections → five weekends →
+ * what you receive + quote → for whom → location → practical facts → register / intro-call form.
+ */
+import Base from '../layouts/Base.astro';
+import Hero from '@opstellingen/shared/components/Hero.astro';
+import SectionHeading from '@opstellingen/shared/components/SectionHeading.astro';
+import { site } from '../site.config';
+import { t, route, type Locale } from '../i18n';
+
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const tr = t(locale);
+const thanks = new URL(route('bedankt', locale), Astro.site).toString();
+const action = site.formEndpoint || route('bedankt', locale);
+
+const copy = {
+  nl: {
+    title: 'The Story of my Life',
+    description: 'Geef je levensverhaal vorm: een schrijfopleiding in vijf weekenden die storytellingtechniek combineert met systemisch werk, op Homecoming Land in Brasschaat.',
+    heroSub: 'Geef je levensverhaal vorm · van herinnering naar meeslepend verhaal',
+    heroCta: 'Schrijf je in',
+    introTitle: 'De film van een uniek leven',
+    intro: [
+      'Veel mensen dromen ervan om hun leven vast te leggen in een boek of scenario. De film van een uniek leven. Een roman over hoogte- en dieptepunten, onverwachte wendingen, bijzondere relaties en verlies.',
+      'Je ziet het verhaal voor je, maar de woorden komen niet. Na een paar bladzijden stokt het schrijven en verdwijnt je project in een lade. Of je schrijft veel, maar mist structuur, ritme of de impact die je voor ogen had.',
+      'The Story of my Life helpt je om jouw persoonlijke ervaringen om te vormen tot een verhaal dat raakt — helder opgebouwd, eerlijk verteld en universeel herkenbaar.',
+    ],
+    herkenTitle: 'Herken je dit?',
+    herken: [
+      'Je wilt je levensverhaal, familiegeschiedenis of persoonlijke ervaringen vastleggen.',
+      'Je hebt veel herinneringen, maar weet niet waar te beginnen.',
+      'Je schrijft pagina’s vol, maar mist een duidelijke rode draad.',
+      'Je vindt het moeilijk om te kiezen welke gebeurtenissen echt belangrijk zijn.',
+      'Je wilt je verhaal meer kracht, emotie en beeld geven.',
+      'Je wilt leren schrijven met meer vertrouwen, techniek en vrijheid.',
+      'Je voelt dat er een verhaal in je leeft dat verteld wil worden.',
+    ],
+    herkenNote: 'Herken je één of meer van deze punten? Dan is deze opleiding voor jou.',
+    levenTitle: 'Een leven is nog geen verhaal',
+    leven: [
+      'Iedereen heeft herinneringen. Maar een chronologische opsomming van gebeurtenissen wordt niet vanzelf een meeslepend boek of scenario.',
+      'Een krachtig verhaal vraagt om keuzes: wat is de kern? Welke scènes dragen jouw thema? Welk conflict, verlangen of kantelpunt laat zien wie jij bent en hoe je veranderd bent?',
+      'In The Story of my Life leer je jouw persoonlijke ervaring te vertalen naar een verhaal dat de lezer of kijker meeneemt. Niet door alles te vertellen, maar door precies die momenten te kiezen die betekenis geven aan jouw leven én iets universeels raken.',
+    ],
+    diepteTitle: 'Schrijven vanuit vakmanschap én diepgang',
+    diepte: [
+      'Deze opleiding combineert storytellingtechniek met persoonlijke verdieping. Je leert de bouwstenen van een sterk verhaal kennen en brengt ze meteen in praktijk in je eigen tekst.',
+      'We werken met theorie, schrijfoefeningen, feedback en systemisch werk. Daarbij onderzoeken we ook de familiepatronen, loyaliteiten en verborgen dynamieken die jouw verhaal — en jouw blik op het leven — mee vormgeven.',
+      'Zo werk je niet alleen aan een beter manuscript, maar ontdek je ook wat jouw verhaal werkelijk wil vertellen.',
+    ],
+    reisEyebrow: 'Het programma',
+    reisTitle: 'De reis in vijf weekenden',
+    focus: 'Focus',
+    inhoud: 'Inhoud',
+    weekends: [
+      { n: 'Weekend 1', h: 'De architectuur van het verhaal', sub: 'Van idee naar narratief', focus: 'De basis. Het wezenlijke verschil tussen een chronologische lijst gebeurtenissen en een meeslepend verhaal.', body: 'We bepalen je centrale thema en selecteren de scènes die er echt toe doen. Daarnaast leren we hoe je jezelf als ‘hoofdpersonage’ positioneert en welke basisstructuur je verhaal nodig heeft om echt te gaan leven.' },
+      { n: 'Weekend 2', h: 'De wortels van het verhaal', sub: 'Familie, systeem en dynamiek', focus: 'Het systemische werk en de onzichtbare krachten.', body: 'Hoe beïnvloeden familielijnen jouw perspectief? We onderzoeken patronen en loyaliteiten. Dit weekend onthult de ‘waarom’ achter de gebeurtenissen, wat zorgt voor diepe emotionele lagen in je tekst.' },
+      { n: 'Weekend 3', h: 'De emotionele kern', sub: 'Conflict, contrast en ontwikkeling', focus: 'De psychologische motor van het verhaal.', body: 'Een verhaal leeft bij gratie van conflict en groei. Hoe beschrijf je de worstelingen, de strijd, de twijfel en de uiteindelijke overwinning? We werken aan de boog van je persoonlijke ontwikkeling, zodat de lezer niet alleen observeert, maar echt meebeleeft.' },
+      { n: 'Weekend 4', h: 'De zintuigen van het verhaal', sub: 'Sensorisch schrijven & atmosfeer', focus: 'De techniek van ‘tonen’ in plaats van ‘vertellen’ (show, don’t tell).', body: 'Hoe vertaal je geuren, geluiden en texturen naar woorden? We maken de scènes tastbaar en levendig. Dit is het moment waarop je tekst stopt een ‘verslag’ te zijn en verandert in een ervaring; we zetten de stap naar invoelbaar drama.' },
+      { n: 'Weekend 5', h: 'De finale', sub: 'Ritme, redactie en universele betekenis', focus: 'De afwerking en de verbinding met de wereld.', body: 'We schaven aan de teksten voor een vlot ritme en bewaken de rode draad. De afsluiting richt zich op de universele betekenis: wat vertelt jouw persoonlijke verhaal over het menszijn in het algemeen?' },
+    ],
+    krijgTitle: 'Wat je ontvangt',
+    krijg: [
+      { h: 'Storytellingtheorie', p: 'Heldere inzichten uit film en narratief schrijven: structuur, personage, conflict, scène, ritme en thema.' },
+      { h: 'Schrijfoefeningen', p: 'Praktische opdrachten waarmee je tijdens elk weekend meteen aan je eigen tekst werkt.' },
+      { h: 'Systemisch inzicht', p: 'Verdieping in je familiesysteem, patronen en loyaliteiten die jouw verhaal mee vormgeven.' },
+      { h: 'Persoonlijke begeleiding', p: 'Individuele feedback op je voortgang, schriftelijk én online, tussen de weekenden door.' },
+      { h: 'Groepsdynamiek', p: 'Inspiratie, herkenning en betrokken feedback in een kleine, veilige groep.' },
+    ],
+    quote: 'De kracht van The Story of my Life zit in de combinatie van vakmanschap, persoonlijke verdieping en consequente praktijk. Je leert niet alleen hoe een verhaal werkt, maar ontwikkelt ook de moed en helderheid om jouw eigen verhaal werkelijk te schrijven.',
+    voorTitle: 'Voor wie is deze opleiding?',
+    voor: [
+      'Mensen die hun levensverhaal, familiegeschiedenis of persoonlijke ervaringen willen schrijven',
+      'Beginnende schrijvers die meer techniek, structuur en vertrouwen willen ontwikkelen',
+      'Mensen die werken aan een boek, roman, memoir of scenario',
+      'Schrijvers die hun tekst meer emotionele diepgang en zeggingskracht willen geven',
+      'Iedereen die graag schrijft en zich wil verdiepen in storytelling',
+    ],
+    locEyebrow: 'De locatie',
+    locTitle: 'Ruimte om te luisteren',
+    loc: [
+      'De opleiding vindt plaats op Homecoming Land in Brasschaat: een domein van 2,5 hectare bos met verschillende serene plekken om te schrijven, te vertragen en contact te maken met je eigen verhaal.',
+      'De natuurlijke omgeving biedt rust, ruimte en stilte — precies wat nodig is om te luisteren naar wat geschreven wil worden.',
+    ],
+    locLink: 'Locatie & route',
+    prakEyebrow: 'All-in traject',
+    prakTitle: 'Praktische informatie',
+    prak: [
+      { h: 'Duur', p: '5 weekenden, gespreid over 9 maanden' },
+      { h: 'Data (onder voorbehoud)', list: ['24–25 april 2027', '26–27 juni 2027', '11–12 september 2027', '30–31 oktober 2027', '15–16 januari 2028'] },
+      { h: 'Groepsgrootte', p: 'Maximaal 12 deelnemers' },
+      { h: 'Begeleiding', p: '70 uur live les, 4 schriftelijke feedbackrondes en 4 individuele online feedbacksessies' },
+      { h: 'Inclusief', p: 'Maaltijden tijdens de 10 opleidingsdagen' },
+      { h: 'Overnachting', p: 'Korting mogelijk bij Hotel Van der Valk – Dennenhof, tegenover Homecoming Land' },
+      { h: 'Betaling', p: 'Betaling in termijnen mogelijk' },
+    ],
+    priceLabel: 'Bijdrage',
+    price: '€ 2.450',
+    stapTitle: 'Kies jouw volgende stap',
+    stappen: [
+      { value: 'inschrijving', h: 'Schrijf je in', p: 'Geef jouw verhaal de structuur, diepgang en vorm die het verdient — met begeleiding, aandacht en ruimte om werkelijk te schrijven.' },
+      { value: 'kennismaking', h: 'Plan een kennismakingsgesprek', p: 'Wil je eerst voelen of deze opleiding bij jou en jouw schrijfproject past? Plan een vrijblijvend gesprek.' },
+    ],
+    formChoice: 'Wat wil je doen?',
+    formProject: 'Vertel kort iets over je schrijfproject (optioneel)',
+    formConsent: 'Ik ga akkoord dat mijn gegevens gebruikt worden om mijn aanvraag te behandelen.',
+    formSubmit: 'Verstuur',
+    formNote: 'Je ontvangt binnenkort een antwoord met alle praktische informatie.',
+    closing: 'Jouw leven is uniek. Geef het verhaal dat in jou leeft de vorm om anderen te raken.',
+    alt: { hero: 'Ochtendlicht valt over een bospad op Homecoming Land', loc: 'De tuin van Homecoming Land onder een wolkenhemel' },
+  },
+  en: {
+    title: 'The Story of my Life',
+    description: 'Give shape to your life story: a writing course in five weekends that combines storytelling craft with systemic work, at Homecoming Land in Brasschaat near Antwerp.',
+    heroSub: 'Give shape to your life story · from memory to a compelling story',
+    heroCta: 'Register',
+    introTitle: 'The film of a unique life',
+    intro: [
+      'Many people dream of capturing their life in a book or screenplay. The film of a unique life. A novel about highs and lows, unexpected turns, special relationships and loss.',
+      'You can see the story, but the words do not come. After a few pages the writing stalls and your project disappears into a drawer. Or you write a lot, but miss the structure, rhythm or impact you had in mind.',
+      'The Story of my Life helps you shape your personal experiences into a story that touches people — clearly built, honestly told and universally recognisable.',
+    ],
+    herkenTitle: 'Does this sound familiar?',
+    herken: [
+      'You want to capture your life story, family history or personal experiences.',
+      'You have many memories, but do not know where to begin.',
+      'You fill page after page, but miss a clear thread.',
+      'You find it hard to choose which events really matter.',
+      'You want to give your story more power, emotion and imagery.',
+      'You want to learn to write with more confidence, technique and freedom.',
+      'You feel there is a story living in you that wants to be told.',
+    ],
+    herkenNote: 'Do you recognise one or more of these? Then this course is for you.',
+    levenTitle: 'A life is not yet a story',
+    leven: [
+      'Everyone has memories. But a chronological list of events does not turn into a compelling book or screenplay by itself.',
+      'A powerful story asks for choices: what is the core? Which scenes carry your theme? Which conflict, longing or turning point shows who you are and how you have changed?',
+      'In The Story of my Life you learn to translate your personal experience into a story that takes the reader or viewer along. Not by telling everything, but by choosing exactly those moments that give meaning to your life and touch something universal.',
+    ],
+    diepteTitle: 'Writing from craft and depth',
+    diepte: [
+      'This course combines storytelling technique with personal deepening. You learn the building blocks of a strong story and put them into practice straight away in your own text.',
+      'We work with theory, writing exercises, feedback and systemic work. Along the way we also explore the family patterns, loyalties and hidden dynamics that shape your story — and the way you look at life.',
+      'So you are not only working on a better manuscript, you also discover what your story truly wants to tell.',
+    ],
+    reisEyebrow: 'The programme',
+    reisTitle: 'The journey in five weekends',
+    focus: 'Focus',
+    inhoud: 'Content',
+    weekends: [
+      { n: 'Weekend 1', h: 'The architecture of the story', sub: 'From idea to narrative', focus: 'The foundation. The essential difference between a chronological list of events and a compelling story.', body: 'We define your central theme and select the scenes that really matter. We also look at how to position yourself as the ‘main character’ and which basic structure your story needs to truly come alive.' },
+      { n: 'Weekend 2', h: 'The roots of the story', sub: 'Family, system and dynamics', focus: 'The systemic work and the invisible forces.', body: 'How do family lines shape your perspective? We explore patterns and loyalties. This weekend reveals the ‘why’ behind the events, which brings deep emotional layers into your text.' },
+      { n: 'Weekend 3', h: 'The emotional core', sub: 'Conflict, contrast and development', focus: 'The psychological engine of the story.', body: 'A story lives by conflict and growth. How do you describe the struggles, the fight, the doubt and the eventual victory? We work on the arc of your personal development, so the reader does not just observe but truly lives it with you.' },
+      { n: 'Weekend 4', h: 'The senses of the story', sub: 'Sensory writing & atmosphere', focus: 'The technique of ‘showing’ instead of ‘telling’ (show, don’t tell).', body: 'How do you translate smells, sounds and textures into words? We make the scenes tangible and vivid. This is the moment your text stops being a ‘report’ and becomes an experience; we take the step towards drama the reader can feel.' },
+      { n: 'Weekend 5', h: 'The finale', sub: 'Rhythm, editing and universal meaning', focus: 'Finishing and connecting with the world.', body: 'We polish the texts for a smooth rhythm and keep the thread intact. The closing focuses on universal meaning: what does your personal story say about being human?' },
+    ],
+    krijgTitle: 'What you receive',
+    krijg: [
+      { h: 'Storytelling theory', p: 'Clear insights from film and narrative writing: structure, character, conflict, scene, rhythm and theme.' },
+      { h: 'Writing exercises', p: 'Practical assignments that let you work on your own text during every weekend.' },
+      { h: 'Systemic insight', p: 'A deeper look at your family system, the patterns and loyalties that help shape your story.' },
+      { h: 'Personal guidance', p: 'Individual feedback on your progress, in writing and online, between the weekends.' },
+      { h: 'Group dynamics', p: 'Inspiration, recognition and engaged feedback in a small, safe group.' },
+    ],
+    quote: 'The strength of The Story of my Life lies in the combination of craft, personal deepening and consistent practice. You not only learn how a story works, you also develop the courage and clarity to truly write your own.',
+    voorTitle: 'Who is this course for?',
+    voor: [
+      'People who want to write their life story, family history or personal experiences',
+      'Beginning writers who want to develop more technique, structure and confidence',
+      'People working on a book, novel, memoir or screenplay',
+      'Writers who want to give their text more emotional depth and expressive power',
+      'Anyone who loves to write and wants to go deeper into storytelling',
+    ],
+    locEyebrow: 'The location',
+    locTitle: 'Room to listen',
+    loc: [
+      'The course takes place at Homecoming Land in Brasschaat: a 2.5-hectare woodland estate with several serene spots to write, slow down and connect with your own story.',
+      'The natural surroundings offer peace, space and silence — exactly what is needed to listen to what wants to be written.',
+    ],
+    locLink: 'Location & directions',
+    prakEyebrow: 'All-in programme',
+    prakTitle: 'Practical information',
+    prak: [
+      { h: 'Duration', p: '5 weekends, spread over 9 months' },
+      { h: 'Dates (subject to change)', list: ['24–25 April 2027', '26–27 June 2027', '11–12 September 2027', '30–31 October 2027', '15–16 January 2028'] },
+      { h: 'Group size', p: 'Maximum 12 participants' },
+      { h: 'Guidance', p: '70 hours of live teaching, 4 written feedback rounds and 4 individual online feedback sessions' },
+      { h: 'Included', p: 'Meals during the 10 course days' },
+      { h: 'Accommodation', p: 'Discount available at Hotel Van der Valk – Dennenhof, across the road from Homecoming Land' },
+      { h: 'Payment', p: 'Payment in instalments possible' },
+    ],
+    priceLabel: 'Contribution',
+    price: '€ 2,450',
+    stapTitle: 'Choose your next step',
+    stappen: [
+      { value: 'inschrijving', h: 'Register', p: 'Give your story the structure, depth and shape it deserves — with guidance, attention and room to truly write.' },
+      { value: 'kennismaking', h: 'Book an introductory call', p: 'Would you like to feel first whether this course suits you and your writing project? Book a no-obligation conversation.' },
+    ],
+    formChoice: 'What would you like to do?',
+    formProject: 'Tell us a little about your writing project (optional)',
+    formConsent: 'I agree that my details are used to handle my request.',
+    formSubmit: 'Send',
+    formNote: 'You will soon receive a reply with all practical information.',
+    closing: 'Your life is unique. Give the story that lives in you the shape to touch others.',
+    alt: { hero: 'Morning light falling across a woodland path at Homecoming Land', loc: 'The garden at Homecoming Land under a cloudy sky' },
+  },
+}[locale];
+---
+<Base locale={locale} title={copy.title} description={copy.description} routeKey="story" transparentNav ogImage="/images/blog-voorbereiden.jpg">
+  <Hero image="/images/blog-voorbereiden.jpg" alt={copy.alt.hero} title={copy.title} subtitle={copy.heroSub} ctaLabel={copy.heroCta} ctaHref="#inschrijven" focus="center 45%" />
+
+  <!-- Intro -->
+  <section class="section">
+    <div class="wrap split">
+      <SectionHeading title={copy.introTitle} />
+      <div class="stack">
+        {copy.intro.map((p, i) => <p class:list={{ lede: i === 2 }}>{p}</p>)}
+      </div>
+    </div>
+  </section>
+
+  <!-- Herken je dit? -->
+  <section class="section band">
+    <div class="wrap wrap--narrow">
+      <SectionHeading title={copy.herkenTitle} align="center" />
+      <ul class="checks">
+        {copy.herken.map((x) => <li>{x}</li>)}
+      </ul>
+      <p class="center lede herken-note">{copy.herkenNote}</p>
+    </div>
+  </section>
+
+  <!-- Een leven is nog geen verhaal / vakmanschap & diepgang -->
+  <section class="section">
+    <div class="wrap grid grid--2 two">
+      <article>
+        <h2 class="display-sm">{copy.levenTitle}</h2>
+        {copy.leven.map((p) => <p>{p}</p>)}
+      </article>
+      <article>
+        <h2 class="display-sm">{copy.diepteTitle}</h2>
+        {copy.diepte.map((p) => <p>{p}</p>)}
+      </article>
+    </div>
+  </section>
+
+  <!-- Vijf weekenden -->
+  <section class="section band">
+    <div class="wrap">
+      <SectionHeading eyebrow={copy.reisEyebrow} title={copy.reisTitle} align="center" />
+      <ol class="weekends">
+        {copy.weekends.map((w) => (
+          <li class="weekend">
+            <div class="weekend__head">
+              <p class="eyebrow">{w.n}</p>
+              <h3 class="display-sm">{w.h}</h3>
+              <p class="weekend__sub">{w.sub}</p>
+            </div>
+            <dl class="weekend__body">
+              <div><dt class="eyebrow muted">{copy.focus}</dt><dd>{w.focus}</dd></div>
+              <div><dt class="eyebrow muted">{copy.inhoud}</dt><dd>{w.body}</dd></div>
+            </dl>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <!-- Wat je ontvangt -->
+  <section class="section">
+    <div class="wrap">
+      <SectionHeading title={copy.krijgTitle} align="center" />
+      <div class="grid grid--3 krijg">
+        {copy.krijg.map((x) => (<div><h3 class="display-sm">{x.h}</h3><p>{x.p}</p></div>))}
+      </div>
+      <blockquote class="quote measure">
+        <p>“{copy.quote}”</p>
+      </blockquote>
+    </div>
+  </section>
+
+  <!-- Voor wie -->
+  <section class="section band">
+    <div class="wrap split">
+      <SectionHeading title={copy.voorTitle} />
+      <ul class="checks">
+        {copy.voor.map((x) => <li>{x}</li>)}
+      </ul>
+    </div>
+  </section>
+
+  <!-- Locatie -->
+  <section class="section">
+    <div class="wrap split split--photo">
+      <div>
+        <SectionHeading eyebrow={copy.locEyebrow} title={copy.locTitle} />
+        {copy.loc.map((p) => <p>{p}</p>)}
+        <p><a class="arrow-link" href={route('locatie', locale)}>{copy.locLink}</a></p>
+      </div>
+      <div class="frame frame--4x3"><img src="/images/locatie-tuin.jpg" alt={copy.alt.loc} loading="lazy" /></div>
+    </div>
+  </section>
+
+  <!-- Praktisch -->
+  <section class="section band">
+    <div class="wrap split">
+      <div>
+        <SectionHeading eyebrow={copy.prakEyebrow} title={copy.prakTitle} />
+        <p class="price"><span class="eyebrow">{copy.priceLabel}</span><span class="price__value">{copy.price}</span></p>
+      </div>
+      <dl class="facts">
+        {copy.prak.map((x) => (
+          <div>
+            <dt class="eyebrow">{x.h}</dt>
+            <dd>{x.list ? <ul class="dates">{x.list.map((d) => <li>{d}</li>)}</ul> : x.p}</dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+  </section>
+
+  <!-- Volgende stap + formulier -->
+  <section class="section" id="inschrijven">
+    <div class="wrap">
+      <SectionHeading title={copy.stapTitle} align="center" />
+      <div class="grid grid--2 steps">
+        {copy.stappen.map((s) => (
+          <div class="step">
+            <h3 class="display-sm">{s.h}</h3>
+            <p>{s.p}</p>
+            <a class="btn" href={`#formulier`} data-choice={s.value}>{s.h}</a>
+          </div>
+        ))}
+      </div>
+      <div class="wrap--narrow" id="formulier">
+        <form class="form" name="the-story-of-my-life" method="POST" action={action} data-netlify={site.formEndpoint ? undefined : 'true'} netlify-honeypot="bot-field" accept-charset="UTF-8">
+          <input type="hidden" name="form-name" value="the-story-of-my-life" />
+          <input type="hidden" name="_next" value={thanks} />
+          <input type="hidden" name="taal" value={locale} />
+          <p class="visually-hidden"><label>Don’t fill this out: <input name="bot-field" /></label></p>
+          <fieldset class="field fieldset">
+            <legend>{copy.formChoice}</legend>
+            {copy.stappen.map((s, i) => (
+              <label class="radio"><input type="radio" name="keuze" value={s.value} checked={i === 0} /> {s.h}</label>
+            ))}
+          </fieldset>
+          <div class="grid grid--2">
+            <div class="field"><label for="sol-naam">{tr('form.name')} *</label><input id="sol-naam" name="naam" type="text" required autocomplete="name" /></div>
+            <div class="field"><label for="sol-email">{tr('form.email')} *</label><input id="sol-email" name="email" type="email" required autocomplete="email" /></div>
+          </div>
+          <div class="field"><label for="sol-tel">{tr('form.phone')}</label><input id="sol-tel" name="telefoon" type="tel" autocomplete="tel" /></div>
+          <div class="field"><label for="sol-project">{copy.formProject}</label><textarea id="sol-project" name="project"></textarea></div>
+          <div class="field field--check"><input id="sol-consent" name="akkoord" type="checkbox" required value="ja" /><label for="sol-consent">{copy.formConsent}</label></div>
+          <p><button class="btn btn--solid" type="submit">{copy.formSubmit}</button></p>
+          <p class="small muted">{copy.formNote}</p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- Slotzin -->
+  <section class="section band band--sand">
+    <div class="wrap">
+      <p class="display closing center measure">{copy.closing}</p>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .two { gap: clamp(1.5rem, 4vw, 4rem); }
+  .two h2 { margin: 0 0 1rem; }
+  .checks { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.9rem; }
+  .checks li { position: relative; padding-left: 1.8rem; }
+  .checks li::before { content: ''; position: absolute; left: 0; top: 0.75em; width: 1rem; height: 1px; background: var(--clay); }
+  .herken-note { margin: 2.5rem auto 0; }
+  .weekends { list-style: none; padding: 0; margin: 0; }
+  .weekend { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: clamp(1rem, 4vw, 4rem); padding-block: 2rem; border-top: 1px solid var(--ink); }
+  .weekend:last-child { border-bottom: 1px solid var(--ink); }
+  .weekend__head h3 { margin: 0.5rem 0 0.3rem; }
+  .weekend__sub { font-family: var(--font-display); font-style: italic; font-size: 1.2rem; margin: 0; }
+  .weekend__body { margin: 0; display: grid; gap: 1rem; }
+  .weekend__body dt { margin-bottom: 0.3rem; }
+  .weekend__body dd { margin: 0; }
+  .krijg { gap: clamp(1.5rem, 4vw, 3.5rem); }
+  .krijg h3 { margin-bottom: 0.6rem; }
+  .quote { margin: clamp(3rem, 6vw, 5rem) auto 0; text-align: center; }
+  .quote p { font-family: var(--font-display); font-size: 1.5rem; line-height: 1.4; font-weight: 500; font-style: italic; }
+  .split--photo { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); align-items: center; gap: clamp(2rem, 5vw, 5rem); }
+  .price { display: grid; gap: 0.4rem; margin-top: 1rem; }
+  .price__value { font-family: var(--font-display); font-size: 2.6rem; line-height: 1; }
+  .facts { margin: 0; display: grid; gap: 1.5rem; }
+  .facts dt { margin-bottom: 0.4rem; }
+  .facts dd { margin: 0; }
+  .dates { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.2rem; }
+  .steps { gap: clamp(1.5rem, 4vw, 4rem); margin-bottom: clamp(2.5rem, 5vw, 4rem); }
+  .step h3 { margin-bottom: 0.6rem; }
+  .step p { margin-bottom: 1.2rem; }
+  .form { display: grid; gap: 1.4rem; }
+  .fieldset { border: 0; padding: 0; margin: 0; }
+  .fieldset legend { font-size: var(--text-small); font-weight: 500; margin-bottom: 0.5rem; }
+  .radio { display: flex; gap: 0.7em; align-items: start; padding: 0.3rem 0; font-size: var(--text-small); }
+  .radio input { margin-top: 0.3em; }
+  .closing { font-size: clamp(1.6rem, 3vw, 2.4rem); line-height: 1.3; margin-inline: auto; }
+  @media (max-width: 56rem) {
+    .weekend, .split--photo { grid-template-columns: minmax(0, 1fr); }
+  }
+</style>
+<script>
+  // The two "next step" buttons preselect the matching choice in the form.
+  document.querySelectorAll<HTMLAnchorElement>('[data-choice]').forEach((a) => {
+    a.addEventListener('click', () => {
+      const r = document.querySelector<HTMLInputElement>(`input[name="keuze"][value="${a.dataset.choice}"]`);
+      if (r) r.checked = true;
+    });
+  });
+</script>

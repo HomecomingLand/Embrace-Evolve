@@ -11,6 +11,7 @@ export const ui = {
     'nav.locatie': 'Locatie',
     'nav.blog': 'Blog',
     'nav.contact': 'Contact',
+    'nav.story': 'The Story of my Life',
     'nav.cta': 'Inschrijven',
     'nav.menu': 'Menu',
     'nav.close': 'Sluiten',
@@ -79,6 +80,7 @@ export const ui = {
     'nav.locatie': 'Location',
     'nav.blog': 'Blog',
     'nav.contact': 'Contact',
+    'nav.story': 'The Story of my Life',
     'nav.cta': 'Register',
     'nav.menu': 'Menu',
     'nav.close': 'Close',
@@ -153,5 +155,6 @@ export const routes = {
   contact: { nl: '/contact/', en: '/en/contact/' },
   privacy: { nl: '/privacy/', en: '/en/privacy/' },
   bedankt: { nl: '/bedankt/', en: '/en/thank-you/' },
+  story: { nl: '/the-story-of-my-life/', en: '/en/the-story-of-my-life/' },
 } as const;
 export type RouteKey = keyof typeof routes;
