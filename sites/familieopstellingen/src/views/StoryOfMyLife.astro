@@ -107,7 +107,7 @@ const copy = {
       { h: 'Begeleiding', p: '70 uur live les, 4 schriftelijke feedbackrondes en 4 individuele online feedbacksessies' },
       { h: 'Inclusief', p: 'Maaltijden tijdens de 10 opleidingsdagen' },
       { h: 'Overnachting', p: 'Korting mogelijk bij Hotel Van der Valk – Dennenhof, tegenover Homecoming Land' },
-      { h: 'Betaling', p: 'Betaling in termijnen mogelijk' },
+      { h: 'Betaling', p: 'Online via iDEAL, Bancontact of kaart. Betaling in termijnen mogelijk' },
     ],
     priceLabel: 'Bijdrage',
     price: '€ 2.450',
@@ -121,6 +121,10 @@ const copy = {
     formConsent: 'Ik ga akkoord dat mijn gegevens gebruikt worden om mijn aanvraag te behandelen.',
     formSubmit: 'Verstuur',
     formNote: 'Je ontvangt binnenkort een antwoord met alle praktische informatie.',
+    payTitle: 'Je bijdrage betalen',
+    pay: 'Ingeschreven? Dan kan je je bijdrage meteen veilig online betalen. Liever in termijnen? Vermeld het in het formulier, dan bezorgen we je een betaalplan.',
+    payBtn: 'Betaal online',
+    payMethods: 'iDEAL · Bancontact · kaart · veilig via Mollie',
     closing: 'Jouw leven is uniek. Geef het verhaal dat in jou leeft de vorm om anderen te raken.',
     alt: { gert: 'Gert Embrechts', hero: 'Ochtendlicht valt over een bospad op Homecoming Land', loc: 'De tuin van Homecoming Land onder een wolkenhemel' },
   },
@@ -212,7 +216,7 @@ const copy = {
       { h: 'Guidance', p: '70 hours of live teaching, 4 written feedback rounds and 4 individual online feedback sessions' },
       { h: 'Included', p: 'Meals during the 10 course days' },
       { h: 'Accommodation', p: 'Discount available at Hotel Van der Valk – Dennenhof, across the road from Homecoming Land' },
-      { h: 'Payment', p: 'Payment in instalments possible' },
+      { h: 'Payment', p: 'Online via iDEAL, Bancontact or card. Payment in instalments possible' },
     ],
     priceLabel: 'Contribution',
     price: '€ 2,450',
@@ -226,6 +230,10 @@ const copy = {
     formConsent: 'I agree that my details are used to handle my request.',
     formSubmit: 'Send',
     formNote: 'You will soon receive a reply with all practical information.',
+    payTitle: 'Paying your contribution',
+    pay: 'Registered? Then you can pay your contribution securely online right away. Prefer to pay in instalments? Mention it in the form and we will send you a payment plan.',
+    payBtn: 'Pay online',
+    payMethods: 'iDEAL · Bancontact · card · secure via Mollie',
     closing: 'Your life is unique. Give the story that lives in you the shape to touch others.',
     alt: { gert: 'Gert Embrechts', hero: 'Morning light falling across a woodland path at Homecoming Land', loc: 'The garden at Homecoming Land under a cloudy sky' },
   },
@@ -452,6 +460,14 @@ const course = {
           <p><button class="btn btn--solid" type="submit">{copy.formSubmit}</button></p>
           <p class="small muted">{copy.formNote}</p>
         </form>
+        {site.payments.story && (
+          <div class="pay" id="betalen">
+            <h3 class="display-sm">{copy.payTitle}</h3>
+            <p>{copy.pay}</p>
+            <p><a class="btn btn--solid" href={site.payments.story} rel="noopener">{copy.payBtn}</a></p>
+            <p class="small muted">{copy.payMethods}</p>
+          </div>
+        )}
       </div>
     </div>
   </section>
@@ -502,6 +518,8 @@ const course = {
   .fieldset legend { font-size: var(--text-small); font-weight: 500; margin-bottom: 0.5rem; }
   .radio { display: flex; gap: 0.7em; align-items: start; padding: 0.3rem 0; font-size: var(--text-small); }
   .radio input { margin-top: 0.3em; }
+  .pay { margin-top: clamp(2.5rem, 5vw, 3.5rem); padding-top: 2rem; border-top: 1px solid var(--ink); }
+  .pay h3 { margin-bottom: 0.6rem; }
   .closing { font-size: clamp(1.6rem, 3vw, 2.4rem); line-height: 1.3; margin-inline: auto; }
   @media (max-width: 56rem) {
     .weekend, .split--photo, .split--gert { grid-template-columns: minmax(0, 1fr); }

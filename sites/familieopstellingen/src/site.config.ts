@@ -38,6 +38,13 @@ export const site = {
    * Or paste a Formspree / Basin / Web3Forms endpoint, e.g. "https://formspree.io/f/abcdwxyz".
    */
   formEndpoint: '',
+  /**
+   * Mollie payment links (Mollie dashboard → Payment links). iDEAL, Bancontact and cards.
+   * Leave a value empty to hide its "pay online" button.
+   */
+  payments: {
+    story: 'https://payment-links.mollie.com/payment/XjCKeRtnZqDpmb6zZFKyT', // The Story of my Life
+  },
   /** Sibling sites (filled in when they exist). Shown in the footer as "Ook van Embrace Evolve". */
   siblings: [
     // { name: 'Embrace Evolve', url: 'https://www.embraceevolve.com', nl: 'Holistische therapie & coaching', en: 'Holistic therapy & coaching' },
