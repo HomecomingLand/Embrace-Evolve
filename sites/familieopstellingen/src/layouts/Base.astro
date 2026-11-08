@@ -42,7 +42,7 @@ const navItems = [
   { label: tr('nav.contact'), href: route('contact', locale) },
 ];
 const footerColumns = [
-  { title: tr('footer.pages'), links: navItems.slice(0, 3) },
+  { title: tr('footer.pages'), links: [...navItems.slice(0, 3), { label: tr('nav.story'), href: route('story', locale) }] },
   { title: tr('footer.praktisch'), links: [navItems[3], navItems[4], { label: tr('nav.cta'), href: route('inschrijven', locale) }, { label: tr('footer.privacy'), href: route('privacy', locale) }] },
 ];
 const addressLines = [site.address.venue, site.address.street, `${site.address.postal} ${site.address.city}`, locale === 'nl' ? site.address.country : site.address.countryEn];

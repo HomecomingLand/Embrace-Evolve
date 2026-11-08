@@ -45,7 +45,7 @@ They were resized to max 2000 px and stripped of EXIF (incl. GPS). Originals are
 | Closing CTA | cta-avondrood.jpg | IMG_1112 | dusk above the pines |
 | Midwinter event | event-midwinter-vuur.jpg | Abstract IMG_2097 | fire bowl with sparks |
 | About portrait | jessica-portret.jpg | Jessica IMG_5472 | warmest smile in the set; a proper portrait would be better |
-| About, Gert | gert-portret.jpg | Gert IMG_0834 | only photo of Gert alone; replace |
+| About + The Story of my Life, Gert | gert-portret-bril.jpg | new portrait supplied 8 Nov 2026 | replaces the earlier winter selfie |
 | About extra | jessica-bospad.jpg, jessica-gert.jpg | IMG_6297, Gert en Jess IMG_6263 | |
 | Location extra | locatie-bos.jpg, locatie-tuin.jpg | IMG_6730, IMG_2437 | |
 | Blog | blog-voorbereiden.jpg, blog-posities.jpg | IMG_0776, IMG_0781 | |
@@ -62,7 +62,6 @@ were fetched. Placeholder for missing images: `public/images/placeholder.svg`.
    ("specials € 120"). Confirm in `src/content/events/*/2026-12-20-*.md`.
 3. About page: Dutch bios of Jessica, Gert and the Embrace Evolve text are used verbatim from the
    Pages document "Website About en EE"; the English is a translation to be read once by Jessica.
-   Gert's portrait is a winter selfie (IMG_0834) for now; a proper portrait is needed.
 4. Location page: directions are generic (Bredabaan N1, De Lijn along the Bredabaan, parking on the
    grounds). Confirm bus stop, parking and bike facilities. Map marker is approximate: set exact
    coordinates in `site.config.ts` (`mapEmbed`).
