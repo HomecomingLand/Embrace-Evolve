@@ -21,7 +21,7 @@ export const GET: APIRoute = async ({ site: origin }) => {
 
   const body = `# ${site.name} · ${site.person}
 
-> Family constellations (familieopstellingen) in groups and private sessions with Jessica Abicht, and the writing course "The Story of my Life" with Gert Embrechts, at ${addr} (about 15 minutes from Antwerp). Part of ${site.umbrella}. The site is in Dutch (default) and English.
+> Family constellations (familieopstellingen) in groups and private sessions with Jessica Abicht, and the writing course "The Story of my Life" with Gert Embrechts, at ${addr} (15 minutes from Antwerp and about 40 minutes from Breda, close to the Dutch border; many participants come from the Netherlands). Part of ${site.umbrella}. The site is in Dutch (default) and English.
 
 ## Offer
 
@@ -61,6 +61,7 @@ ${posts.map((p) => `- [${p.data.title}](${url(`${routes.blog[p.data.lang]}${p.id
 - Phone: ${site.phone}
 - Address: ${addr}
 - Directions: ${site.mapsUrl}
+- From the Netherlands: via the N1 (Bredabaan) from the border or the A16/E19 towards Antwerp; by train to Antwerpen-Centraal, then a De Lijn bus.
 `;
   return new Response(body, { headers: { 'Content-Type': 'text/plain; charset=utf-8' } });
 };

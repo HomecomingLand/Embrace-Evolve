@@ -60,8 +60,8 @@ export function baseGraph(locale: Locale, origin: URL | undefined): Node[] {
       alternateName: site.umbrella,
       description:
         locale === 'nl'
-          ? 'Familieopstellingen in groep en privé, en de schrijfopleiding The Story of my Life, op Homecoming Land in Brasschaat (bij Antwerpen).'
-          : 'Family constellations in groups and private sessions, and the writing course The Story of my Life, at Homecoming Land in Brasschaat near Antwerp.',
+          ? 'Familieopstellingen in groep en privé, en de schrijfopleiding The Story of my Life, op Homecoming Land in Brasschaat, tussen Antwerpen en Breda, vlak bij de Nederlandse grens.'
+          : 'Family constellations in groups and private sessions, and the writing course The Story of my Life, at Homecoming Land in Brasschaat, between Antwerp and Breda, close to the Dutch border.',
       url: `${i.base}/`,
       email: site.email,
       telephone: site.phone,
@@ -70,7 +70,13 @@ export function baseGraph(locale: Locale, origin: URL | undefined): Node[] {
       address: postalAddress(locale),
       geo: geo(),
       location: { '@id': i.place },
-      areaServed: ['Brasschaat', 'Antwerpen', 'Vlaanderen', 'België', 'Nederland'],
+      areaServed: [
+        { '@type': 'Country', name: 'België' },
+        { '@type': 'Country', name: 'Nederland' },
+        { '@type': 'City', name: 'Antwerpen' },
+        { '@type': 'City', name: 'Breda' },
+        { '@type': 'AdministrativeArea', name: 'Noord-Brabant' },
+      ],
       knowsLanguage: ['nl', 'en'],
       vatID: site.vat,
       founder: [{ '@id': i.jessica }, { '@id': i.gert }],
@@ -82,7 +88,7 @@ export function baseGraph(locale: Locale, origin: URL | undefined): Node[] {
       '@id': i.website,
       url: `${i.base}/`,
       name: site.name,
-      inLanguage: ['nl-BE', 'en'],
+      inLanguage: ['nl', 'en'],
       publisher: { '@id': i.business },
     },
     {

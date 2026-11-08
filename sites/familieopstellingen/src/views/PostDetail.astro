@@ -21,7 +21,7 @@ const articleLd = {
   image: d.image ? abs(d.image, Astro.site) : undefined,
   datePublished: published,
   dateModified: published,
-  inLanguage: locale === 'nl' ? 'nl-BE' : 'en',
+  inLanguage: locale,
   author: { '@id': i.jessica },
   publisher: { '@id': i.business },
   isPartOf: { '@id': i.website },

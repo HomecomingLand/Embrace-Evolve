@@ -9,12 +9,13 @@ const { locale } = Astro.props;
 const tr = t(locale);
 const copy = {
   nl: {
-    title: 'Locatie & route', description: 'De opstellingen vinden plaats op Homecoming Land, Bredabaan 1251 in Brasschaat. Zo geraak je er met de auto, de fiets of het openbaar vervoer.',
-    eyebrow: 'Homecoming Land', lede: 'Een stille plek tussen de bomen aan de rand van Brasschaat, op een kwartier van Antwerpen. De opstellingsdagen gaan door in het vernieuwde paviljoen.',
+    title: 'Locatie & route', description: 'De opstellingen vinden plaats op Homecoming Land, Bredabaan 1251 in Brasschaat. Tussen Antwerpen en Breda, vlak bij de Nederlandse grens. Zo kom je er met de auto, de trein, de bus of de fiets.',
+    eyebrow: 'Homecoming Land', lede: 'Een stille plek tussen de bomen aan de rand van Brasschaat: een kwartier van Antwerpen en ongeveer 40 minuten van Breda. De opstellingsdagen gaan door in het vernieuwde paviljoen.',
     adresTitle: 'Adres',
     routeTitle: 'Hoe geraak je er?',
     route: [
       { h: 'Met de auto', p: 'Homecoming Land ligt aan de Bredabaan (N1), de hoofdweg van Antwerpen naar Breda, voorbij het centrum van Brasschaat. Volg de Bredabaan tot nummer 1251; je herkent de ingang aan de witte poortpijlers.' },
+      { h: 'Vanuit Nederland', p: 'De Bredabaan is letterlijk de weg naar Breda: vanaf de grens rij je via de N1 rechtstreeks naar Homecoming Land, of je neemt de A16/E19 richting Antwerpen. Vanuit Breda ben je er in ongeveer 40 minuten, vanuit Rotterdam in ruim een uur. Met de trein neem je de intercity naar Antwerpen-Centraal en daar de bus van De Lijn.' },
       { h: 'Met het openbaar vervoer', p: 'Vanuit Antwerpen rijden er De Lijn-bussen over de Bredabaan richting Brasschaat en verder. Plan je rit via delijn.be en stap af aan de halte het dichtst bij nummer 1251.' },
       { h: 'Met de fiets', p: 'Vanuit het centrum van Antwerpen is het een rechte, vlakke rit van een twaalftal kilometer langs de Bredabaan. Je fiets kan op het domein.' },
       { h: 'Parkeren', p: 'Je kan parkeren op het domein. Kom je met meerdere mensen, overweeg dan om samen te rijden: zo blijft het rustig aan de ingang.' },
@@ -25,12 +26,13 @@ const copy = {
     alt1: 'De poort van Homecoming Land, Bredabaan 1251', alt2: 'Het bos op Homecoming Land', alt3: 'De tuin op Homecoming Land',
   },
   en: {
-    title: 'Location & directions', description: 'The constellations take place at Homecoming Land, Bredabaan 1251 in Brasschaat. How to get there by car, bike or public transport.',
-    eyebrow: 'Homecoming Land', lede: 'A quiet place among the trees on the edge of Brasschaat, fifteen minutes from Antwerp. The constellation days take place in the renovated pavilion.',
+    title: 'Location & directions', description: 'The constellations take place at Homecoming Land, Bredabaan 1251 in Brasschaat. Between Antwerp and Breda, close to the Dutch border. How to get there by car, train, bus or bike.',
+    eyebrow: 'Homecoming Land', lede: 'A quiet place among the trees on the edge of Brasschaat: fifteen minutes from Antwerp and about 40 minutes from Breda. The constellation days take place in the renovated pavilion.',
     adresTitle: 'Address',
     routeTitle: 'How to get there',
     route: [
       { h: 'By car', p: 'Homecoming Land is on the Bredabaan (N1), the main road from Antwerp to Breda, just past the centre of Brasschaat. Follow the Bredabaan to number 1251; you will recognise the entrance by its white gate pillars.' },
+      { h: 'From the Netherlands', p: 'The Bredabaan is literally the road to Breda: from the border, follow the N1 straight to Homecoming Land, or take the A16/E19 towards Antwerp. From Breda it takes about 40 minutes, from Rotterdam just over an hour. By train, take the intercity to Antwerpen-Centraal and a De Lijn bus from there.' },
       { h: 'By public transport', p: 'From Antwerp, De Lijn buses run along the Bredabaan towards Brasschaat and beyond. Plan your trip on delijn.be and get off at the stop closest to number 1251.' },
       { h: 'By bike', p: 'From the centre of Antwerp it is a straight, flat ride of about twelve kilometres along the Bredabaan. Bikes can be left on the grounds.' },
       { h: 'Parking', p: 'You can park on the grounds. If several of you are coming, consider sharing a car so the entrance stays calm.' },
