@@ -39,7 +39,7 @@ export const site = {
    */
   formEndpoint: '',
   /**
-   * Mollie payment links (Mollie dashboard → Payment links). iDEAL, Bancontact and cards.
+   * Mollie payment links (Mollie dashboard → Payment links). Bancontact, iDEAL and cards.
    * Leave a value empty to hide its "pay online" button.
    */
   payments: {
