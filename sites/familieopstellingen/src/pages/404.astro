@@ -1,0 +1,24 @@
+---
+/** 404: served by Cloudflare for any unknown URL (wrangler.jsonc: not_found_handling "404-page"). Bilingual, noindex. */
+import Base from '../layouts/Base.astro';
+import PageIntro from '@opstellingen/shared/components/PageIntro.astro';
+import { route } from '../i18n';
+---
+<Base locale="nl" title="Pagina niet gevonden" description="Deze pagina bestaat niet (meer)." routeKey="home" noindex>
+  <PageIntro eyebrow="404" title="Pagina niet gevonden" lede="Deze pagina bestaat niet (meer). Misschien vind je hieronder wat je zocht." />
+  <section class="section--tight">
+    <div class="wrap--narrow stack">
+      <ul class="links">
+        <li><a class="arrow-link" href={route('home', 'nl')}>Home</a></li>
+        <li><a class="arrow-link" href={route('opstellingen', 'nl')}>Opstellingen</a></li>
+        <li><a class="arrow-link" href={route('story', 'nl')}>The Story of my Life</a></li>
+        <li><a class="arrow-link" href={route('agenda', 'nl')}>Agenda</a></li>
+        <li><a class="arrow-link" href={route('contact', 'nl')}>Contact</a></li>
+      </ul>
+      <p class="small muted" lang="en">Page not found. <a href={route('home', 'en')}>Go to the English homepage</a>.</p>
+    </div>
+  </section>
+</Base>
+<style>
+  .links { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.8rem; }
+</style>

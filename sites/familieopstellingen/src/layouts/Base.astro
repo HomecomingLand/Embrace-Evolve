@@ -15,6 +15,7 @@ import '../styles/theme.css';
 import Nav from '@opstellingen/shared/components/Nav.astro';
 import Footer from '@opstellingen/shared/components/Footer.astro';
 import { site } from '../site.config';
+import { baseGraph, breadcrumbs } from '../lib/schema';
 import { t, route, type Locale, type RouteKey, localeLinks } from '../i18n';
 
 interface Props {
@@ -25,12 +26,40 @@ interface Props {
   slugs?: Partial<Record<Locale, string>>;
   transparentNav?: boolean;
   ogImage?: string;
+  ogImageAlt?: string;
+  /** Extra schema.org nodes for this page (Course, Event, BlogPosting, BreadcrumbList, ...). */
+  jsonLd?: Record<string, unknown>[];
+  /** Keep this page out of search results (thank-you pages, 404). */
+  noindex?: boolean;
+  /** Full <title> override (otherwise "Title · Familieopstellingen · Jessica Abicht", shortened if too long). */
+  seoTitle?: string;
+  /** Set for articles: published date (ISO). */
+  published?: string;
 }
-const { locale, title, description, routeKey, slugs, transparentNav = false, ogImage = '/images/og-default.jpg' } = Astro.props;
+const { locale, title, description, routeKey, slugs, transparentNav = false, ogImage = '/images/og-default.jpg', ogImageAlt, jsonLd = [], published } = Astro.props;
+const noindex = Astro.props.noindex ?? routeKey === 'bedankt';
 const tr = t(locale);
+// Breadcrumbs: Home › (section ›) this page. Detail pages (slugs set) sit under their section.
+const crumbs = routeKey === 'home' || noindex ? [] : [
+  { name: 'Home', path: route('home', locale) },
+  ...(slugs ? [{ name: tr(`nav.${routeKey}`), path: route(routeKey, locale) }] : []),
+  { name: title, path: Astro.url.pathname },
+];
+const graph = {
+  '@context': 'https://schema.org',
+  '@graph': [...baseGraph(locale, Astro.site), ...(crumbs.length ? [breadcrumbs(crumbs, Astro.site)] : []), ...jsonLd],
+};
 const locales = localeLinks(locale, routeKey, slugs);
+// hreflang only for real translations (a detail page without a twin links to nothing).
+const hreflangs = slugs ? locales.filter((l) => l.code === locale || slugs[l.code]) : locales;
 const canonical = new URL(Astro.url.pathname, Astro.site);
-const fullTitle = `${title} · ${site.name} · ${site.person}`;
+// Google shows about 60 characters: keep the brand, drop parts that make it too long.
+const fullTitle = Astro.props.seoTitle ?? (
+  routeKey === 'home' ? title
+  : `${title} · ${site.name} · ${site.person}`.length <= 62 ? `${title} · ${site.name} · ${site.person}`
+  : `${title} · ${site.name}`.length <= 62 ? `${title} · ${site.name}`
+  : title
+);
 const year = new Date().getFullYear();
 
 const navItems = [
@@ -56,16 +85,29 @@ const siblings = site.siblings.map((s) => ({ label: `${s.name} — ${locale === 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
-    <link rel="canonical" href={canonical} />
-    {locales.map((l) => (<link rel="alternate" hreflang={l.code === 'nl' ? 'nl-BE' : l.code} href={new URL(l.href, Astro.site)} />))}
-    <link rel="alternate" hreflang="x-default" href={new URL(locales.find((l) => l.code === 'nl')?.href ?? '/', Astro.site)} />
+    <meta name="robots" content={noindex ? 'noindex, follow' : 'index, follow, max-image-preview:large, max-snippet:-1'} />
+    {!noindex && <link rel="canonical" href={canonical} />}
+    <link rel="sitemap" type="application/xml" href="/sitemap-index.xml" />
+    <meta name="author" content={site.person} />
+    {!noindex && hreflangs.map((l) => (<link rel="alternate" hreflang={l.code === 'nl' ? 'nl-BE' : l.code} href={new URL(l.href, Astro.site)} />))}
+    {!noindex && hreflangs.some((l) => l.code === 'nl') && <link rel="alternate" hreflang="x-default" href={new URL(hreflangs.find((l) => l.code === 'nl')!.href, Astro.site)} />}
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={published ? 'article' : 'website'} />
+    <meta property="og:site_name" content={`${site.name} · ${site.person}`} />
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={new URL(ogImage, Astro.site)} />
+    <meta property="og:image:alt" content={ogImageAlt ?? title} />
     <meta property="og:locale" content={locale === 'nl' ? 'nl_BE' : 'en_GB'} />
+    <meta property="og:locale:alternate" content={locale === 'nl' ? 'en_GB' : 'nl_BE'} />
+    {published && <meta property="article:published_time" content={published} />}
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={new URL(ogImage, Astro.site)} />
+    <link rel="alternate" type="text/plain" title="llms.txt" href="/llms.txt" />
+    <script type="application/ld+json" set:html={JSON.stringify(graph)} />
     <meta name="theme-color" content="#f7f3ef" />
   </head>
   <body>

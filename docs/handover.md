@@ -98,3 +98,16 @@ component there so all three benefit.
   shows a past date as upcoming.
 - Fonts are self-hosted via Fontsource (no Google Fonts requests, GDPR-friendly). No cookies, no
   analytics. The only third-party request is the OpenStreetMap iframe on the location page.
+
+## SEO and bots (added 8 November 2026)
+
+- `sitemap-index.xml` (via `@astrojs/sitemap`), `robots.txt` and `llms.txt` are generated at build time from
+  `src/pages/robots.txt.ts` and `src/pages/llms.txt.ts`. robots.txt allows search engines and AI assistants
+  (GPTBot, ClaudeBot, PerplexityBot, Google-Extended, ...) and hides only the thank-you pages.
+- Structured data (schema.org JSON-LD) lives in `src/lib/schema.ts`: business, place, website, Jessica and Gert
+  on every page, plus BreadcrumbList, Course (The Story of my Life), Event (agenda items), BlogPosting and Service.
+  When the Story of my Life dates change, update both the `prak` list and `weekendDates` in `StoryOfMyLife.astro`,
+  and the summary in `llms.txt.ts`.
+- Thank-you pages and the 404 are `noindex`. Detail pages without a translation get no hreflang to the other language.
+- `public/_headers` sets long browser caching for `/_astro/*` and `/images/*`.
+- Everything uses `site` in `astro.config.mjs` for absolute URLs: set it to the real domain.

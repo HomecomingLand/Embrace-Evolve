@@ -4,6 +4,7 @@ import Base from '../layouts/Base.astro';
 import PageIntro from '@opstellingen/shared/components/PageIntro.astro';
 import SectionHeading from '@opstellingen/shared/components/SectionHeading.astro';
 import { t, route, type Locale } from '../i18n';
+import { ids } from '../lib/schema';
 interface Props { locale: Locale }
 const { locale } = Astro.props;
 const tr = t(locale);
@@ -57,8 +58,10 @@ const copy = {
     altJ: 'Jessica Abicht', altG: 'Gert Embrechts', altEE: 'Jessica and Gert', altPad: 'Jessica on the forest path',
   },
 }[locale];
+const i = ids(Astro.site);
+const aboutLd = { '@type': 'AboutPage', name: copy.title, description: copy.description, about: { '@id': i.business }, mentions: [{ '@id': i.jessica }, { '@id': i.gert }] };
 ---
-<Base locale={locale} title={copy.title} description={copy.description} routeKey="over">
+<Base locale={locale} title={copy.title} description={copy.description} routeKey="over" jsonLd={[aboutLd]}>
   <PageIntro eyebrow={copy.eyebrow} title={copy.title} lede={copy.lede} />
 
   <section class="section--tight">

@@ -3,13 +3,31 @@ import Base from '../layouts/Base.astro';
 import { render } from 'astro:content';
 import type { CollectionEntry } from 'astro:content';
 import { t, route, formatDate, type Locale } from '../i18n';
+import { ids, abs } from '../lib/schema';
 interface Props { locale: Locale; post: CollectionEntry<'posts'>; slugs: Partial<Record<Locale, string>>; }
 const { locale, post, slugs } = Astro.props;
 const tr = t(locale);
 const d = post.data;
 const { Content } = await render(post);
+const i = ids(Astro.site);
+const published = d.date.toISOString().slice(0, 10);
+const articleLd = {
+  '@type': 'BlogPosting',
+  '@id': `${abs(Astro.url.pathname, Astro.site)}#article`,
+  headline: d.title,
+  description: d.description,
+  url: abs(Astro.url.pathname, Astro.site),
+  mainEntityOfPage: abs(Astro.url.pathname, Astro.site),
+  image: d.image ? abs(d.image, Astro.site) : undefined,
+  datePublished: published,
+  dateModified: published,
+  inLanguage: locale === 'nl' ? 'nl-BE' : 'en',
+  author: { '@id': i.jessica },
+  publisher: { '@id': i.business },
+  isPartOf: { '@id': i.website },
+};
 ---
-<Base locale={locale} title={d.title} description={d.description} routeKey="blog" slugs={slugs} ogImage={d.image}>
+<Base locale={locale} title={d.title} description={d.description} routeKey="blog" slugs={slugs} ogImage={d.image} ogImageAlt={d.imageAlt} published={published} jsonLd={[articleLd]}>
   <article>
     <header class="section--tight">
       <div class="wrap--narrow center">

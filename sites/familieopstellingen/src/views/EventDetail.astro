@@ -3,6 +3,7 @@ import Base from '../layouts/Base.astro';
 import { render } from 'astro:content';
 import type { CollectionEntry } from 'astro:content';
 import { t, route, formatDate, type Locale } from '../i18n';
+import { ids, abs, brusselsDateTime, priceNumber } from '../lib/schema';
 interface Props { locale: Locale; event: CollectionEntry<'events'>; slugs: Partial<Record<Locale, string>>; }
 const { locale, event, slugs } = Astro.props;
 const tr = t(locale);
@@ -11,11 +12,38 @@ const { Content } = await render(event);
 const statusKey = d.status === 'full' ? 'agenda.full' : d.status === 'few' ? 'agenda.few' : d.status === 'cancelled' ? 'agenda.cancelled' : 'agenda.open';
 const registerHref = `${route('inschrijven', locale)}?event=${encodeURIComponent(d.key)}`;
 const dateStr = d.endDate ? `${formatDate(d.date, locale)} – ${formatDate(d.endDate, locale)}` : formatDate(d.date, locale);
+const i = ids(Astro.site);
+const price = priceNumber(d.price);
+const eventLd = {
+  '@type': 'Event',
+  '@id': `${abs(Astro.url.pathname, Astro.site)}#event`,
+  name: d.title,
+  description: d.summary,
+  url: abs(Astro.url.pathname, Astro.site),
+  image: d.image ? abs(d.image, Astro.site) : undefined,
+  inLanguage: 'nl',
+  startDate: brusselsDateTime(d.date, d.start),
+  endDate: brusselsDateTime(d.endDate ?? d.date, d.end),
+  doorTime: d.arrival ? brusselsDateTime(d.date, d.arrival) : undefined,
+  eventStatus: d.status === 'cancelled' ? 'https://schema.org/EventCancelled' : 'https://schema.org/EventScheduled',
+  eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
+  location: { '@id': i.place },
+  organizer: { '@id': i.business },
+  performer: { '@id': i.jessica },
+  maximumAttendeeCapacity: d.spots,
+  offers: price ? {
+    '@type': 'Offer',
+    price,
+    priceCurrency: 'EUR',
+    url: abs(registerHref, Astro.site),
+    availability: d.status === 'full' || d.status === 'cancelled' ? 'https://schema.org/SoldOut' : d.status === 'few' ? 'https://schema.org/LimitedAvailability' : 'https://schema.org/InStock',
+  } : undefined,
+};
 ---
-<Base locale={locale} title={d.title} description={d.summary} routeKey="agenda" slugs={slugs} ogImage={d.image}>
+<Base locale={locale} title={d.title} description={d.summary} routeKey="agenda" slugs={slugs} ogImage={d.image} jsonLd={[eventLd]}>
   <section class="section--tight">
     <div class="wrap ev">
-      <div class="ev__media frame frame--3x4"><img src={d.image ?? '/images/placeholder.svg'} alt="" /></div>
+      <div class="ev__media frame frame--3x4"><img src={d.image ?? '/images/placeholder.svg'} alt={d.title} /></div>
       <div class="ev__body">
         <p class="eyebrow muted">{tr(`agenda.type.${d.type}`)}</p>
         <h1 class="display">{d.title}</h1>

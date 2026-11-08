@@ -10,6 +10,7 @@ import Hero from '@opstellingen/shared/components/Hero.astro';
 import SectionHeading from '@opstellingen/shared/components/SectionHeading.astro';
 import { site } from '../site.config';
 import { t, route, type Locale } from '../i18n';
+import { ids, abs } from '../lib/schema';
 
 interface Props { locale: Locale }
 const { locale } = Astro.props;
@@ -229,8 +230,67 @@ const copy = {
     alt: { gert: 'Gert Embrechts', hero: 'Morning light falling across a woodland path at Homecoming Land', loc: 'The garden at Homecoming Land under a cloudy sky' },
   },
 }[locale];
+
+// Weekend dates (Saturday–Sunday). Keep in sync with the "Data" list in `prak` above.
+const weekendDates = [['2027-04-24', '2027-04-25'], ['2027-06-26', '2027-06-27'], ['2027-09-11', '2027-09-12'], ['2027-10-30', '2027-10-31'], ['2028-01-15', '2028-01-16']];
+const i = ids(Astro.site);
+const pageUrl = abs(route('story', locale), Astro.site);
+const course = {
+  '@type': 'Course',
+  '@id': `${pageUrl}#course`,
+  name: 'The Story of my Life',
+  alternateName: locale === 'nl' ? 'Schrijfopleiding: geef je levensverhaal vorm' : 'Writing course: give shape to your life story',
+  description: copy.description,
+  url: pageUrl,
+  image: abs('/images/blog-voorbereiden.jpg', Astro.site),
+  inLanguage: 'nl',
+  provider: { '@id': i.business },
+  about: ['Storytelling', locale === 'nl' ? 'Levensverhaal schrijven' : 'Life writing', 'Memoir', locale === 'nl' ? 'Scenario' : 'Screenwriting', locale === 'nl' ? 'Systemisch werk' : 'Systemic work'],
+  teaches: copy.weekends.map((w) => `${w.h}: ${w.sub}`),
+  audience: { '@type': 'Audience', audienceType: copy.voor.join('; ') },
+  timeRequired: 'PT70H',
+  offers: {
+    '@type': 'Offer',
+    category: 'Paid',
+    price: '2450',
+    priceCurrency: 'EUR',
+    url: `${pageUrl}#inschrijven`,
+    availability: 'https://schema.org/InStock',
+    validFrom: '2026-11-01',
+  },
+  hasCourseInstance: {
+    '@type': 'CourseInstance',
+    courseMode: 'Onsite',
+    startDate: weekendDates[0][0],
+    endDate: weekendDates[4][1],
+    location: { '@id': i.place },
+    instructor: [{ '@id': i.gert }, { '@id': i.jessica }],
+    maximumAttendeeCapacity: 12,
+    courseSchedule: {
+      '@type': 'Schedule',
+      repeatFrequency: 'P2M',
+      repeatCount: 5,
+      startDate: weekendDates[0][0],
+      endDate: weekendDates[4][1],
+      scheduleTimezone: 'Europe/Brussels',
+    },
+    subEvent: weekendDates.map(([start, end], n) => ({
+      '@type': 'Event',
+      name: `The Story of my Life · ${copy.weekends[n].n}: ${copy.weekends[n].h}`,
+      startDate: start,
+      endDate: end,
+      eventStatus: 'https://schema.org/EventScheduled',
+      eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
+      location: { '@id': i.place },
+      organizer: { '@id': i.business },
+      performer: n === 1 ? [{ '@id': i.gert }, { '@id': i.jessica }] : [{ '@id': i.gert }],
+    })),
+  },
+};
 ---
-<Base locale={locale} title={copy.title} description={copy.description} routeKey="story" transparentNav ogImage="/images/blog-voorbereiden.jpg">
+<Base locale={locale} title={copy.title} description={copy.description} routeKey="story" transparentNav ogImage="/images/blog-voorbereiden.jpg" ogImageAlt={copy.alt.hero}
+  seoTitle={locale === 'nl' ? 'The Story of my Life · Schrijfopleiding in Brasschaat' : 'The Story of my Life · Writing course near Antwerp'}
+  jsonLd={[course]}>
   <Hero image="/images/blog-voorbereiden.jpg" alt={copy.alt.hero} title={copy.title} subtitle={copy.heroSub} ctaLabel={copy.heroCta} ctaHref="#inschrijven" focus="center 45%" />
 
   <!-- Intro -->

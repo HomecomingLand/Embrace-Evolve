@@ -11,7 +11,7 @@ const statusKey = d.status === 'full' ? 'agenda.full' : d.status === 'few' ? 'ag
 const dateStr = formatDate(d.date, locale);
 ---
 <article class="ev">
-  <a class="frame frame--4x3 ev__img" href={href}><img src={d.image ?? '/images/placeholder.svg'} alt="" loading="lazy" /></a>
+  <a class="frame frame--4x3 ev__img" href={href}><img src={d.image ?? '/images/placeholder.svg'} alt={d.title} loading="lazy" /></a>
   <p class="eyebrow muted ev__meta">{tr(`agenda.type.${d.type}`)} · <time datetime={d.date.toISOString().slice(0, 10)}>{dateStr}</time></p>
   <h3 class="display-sm"><a href={href}>{d.title}</a></h3>
   <p class="small">{d.summary}</p>

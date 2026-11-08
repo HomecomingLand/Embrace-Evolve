@@ -3,6 +3,7 @@ import Base from '../layouts/Base.astro';
 import PageIntro from '@opstellingen/shared/components/PageIntro.astro';
 import SectionHeading from '@opstellingen/shared/components/SectionHeading.astro';
 import { t, route, type Locale } from '../i18n';
+import { ids, abs } from '../lib/schema';
 interface Props { locale: Locale }
 const { locale } = Astro.props;
 const tr = t(locale);
@@ -62,8 +63,22 @@ const copy = {
     alt1: 'Chairs in a circle at Homecoming Land', alt2: 'Two hands holding each other',
   },
 }[locale];
+const i = ids(Astro.site);
+const services = [
+  { name: copy.groepTitle, text: copy.groep[0], img: '/images/groep-kring-bos.jpg' },
+  { name: copy.priveTitle, text: copy.prive[0], img: '/images/prive-handen.jpg' },
+].map((x) => ({
+  '@type': 'Service',
+  name: x.name,
+  serviceType: locale === 'nl' ? 'Familieopstellingen' : 'Family constellations',
+  description: x.text,
+  image: abs(x.img, Astro.site),
+  provider: { '@id': i.business },
+  areaServed: { '@id': i.place },
+  url: abs(route('opstellingen', locale), Astro.site),
+}));
 ---
-<Base locale={locale} title={copy.title} description={copy.description} routeKey="opstellingen">
+<Base locale={locale} title={copy.title} description={copy.description} routeKey="opstellingen" jsonLd={services}>
   <PageIntro eyebrow={copy.eyebrow} title={copy.title} lede={copy.lede} />
   <section class="section--tight">
     <div class="wrap grid grid--2 two">
