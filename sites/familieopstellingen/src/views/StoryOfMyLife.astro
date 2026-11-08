@@ -56,9 +56,10 @@ const copy = {
     reisTitle: 'De reis in vijf weekenden',
     focus: 'Focus',
     inhoud: 'Inhoud',
+    coach: 'Extra coach',
     weekends: [
       { n: 'Weekend 1', h: 'De architectuur van het verhaal', sub: 'Van idee naar narratief', focus: 'De basis. Het wezenlijke verschil tussen een chronologische lijst gebeurtenissen en een meeslepend verhaal.', body: 'We bepalen je centrale thema en selecteren de scènes die er echt toe doen. Daarnaast leren we hoe je jezelf als ‘hoofdpersonage’ positioneert en welke basisstructuur je verhaal nodig heeft om echt te gaan leven.' },
-      { n: 'Weekend 2', h: 'De wortels van het verhaal', sub: 'Familie, systeem en dynamiek', focus: 'Het systemische werk en de onzichtbare krachten.', body: 'Hoe beïnvloeden familielijnen jouw perspectief? We onderzoeken patronen en loyaliteiten. Dit weekend onthult de ‘waarom’ achter de gebeurtenissen, wat zorgt voor diepe emotionele lagen in je tekst.' },
+      { n: 'Weekend 2', h: 'De wortels van het verhaal', sub: 'Familie, systeem en dynamiek', focus: 'Het systemische werk en de onzichtbare krachten.', body: 'Hoe beïnvloeden familielijnen jouw perspectief? We onderzoeken patronen en loyaliteiten. Dit weekend onthult de ‘waarom’ achter de gebeurtenissen, wat zorgt voor diepe emotionele lagen in je tekst.', guest: 'Dit weekend begeleidt Jessica Abicht mee als extra coach. Jessica is expert in familieopstellingen.' },
       { n: 'Weekend 3', h: 'De emotionele kern', sub: 'Conflict, contrast en ontwikkeling', focus: 'De psychologische motor van het verhaal.', body: 'Een verhaal leeft bij gratie van conflict en groei. Hoe beschrijf je de worstelingen, de strijd, de twijfel en de uiteindelijke overwinning? We werken aan de boog van je persoonlijke ontwikkeling, zodat de lezer niet alleen observeert, maar echt meebeleeft.' },
       { n: 'Weekend 4', h: 'De zintuigen van het verhaal', sub: 'Sensorisch schrijven & atmosfeer', focus: 'De techniek van ‘tonen’ in plaats van ‘vertellen’ (show, don’t tell).', body: 'Hoe vertaal je geuren, geluiden en texturen naar woorden? We maken de scènes tastbaar en levendig. Dit is het moment waarop je tekst stopt een ‘verslag’ te zijn en verandert in een ervaring; we zetten de stap naar invoelbaar drama.' },
       { n: 'Weekend 5', h: 'De finale', sub: 'Ritme, redactie en universele betekenis', focus: 'De afwerking en de verbinding met de wereld.', body: 'We schaven aan de teksten voor een vlot ritme en bewaken de rode draad. De afsluiting richt zich op de universele betekenis: wat vertelt jouw persoonlijke verhaal over het menszijn in het algemeen?' },
@@ -160,9 +161,10 @@ const copy = {
     reisTitle: 'The journey in five weekends',
     focus: 'Focus',
     inhoud: 'Content',
+    coach: 'Additional coach',
     weekends: [
       { n: 'Weekend 1', h: 'The architecture of the story', sub: 'From idea to narrative', focus: 'The foundation. The essential difference between a chronological list of events and a compelling story.', body: 'We define your central theme and select the scenes that really matter. We also look at how to position yourself as the ‘main character’ and which basic structure your story needs to truly come alive.' },
-      { n: 'Weekend 2', h: 'The roots of the story', sub: 'Family, system and dynamics', focus: 'The systemic work and the invisible forces.', body: 'How do family lines shape your perspective? We explore patterns and loyalties. This weekend reveals the ‘why’ behind the events, which brings deep emotional layers into your text.' },
+      { n: 'Weekend 2', h: 'The roots of the story', sub: 'Family, system and dynamics', focus: 'The systemic work and the invisible forces.', body: 'How do family lines shape your perspective? We explore patterns and loyalties. This weekend reveals the ‘why’ behind the events, which brings deep emotional layers into your text.', guest: 'This weekend Jessica Abicht joins as an additional coach. Jessica is an expert in family constellations.' },
       { n: 'Weekend 3', h: 'The emotional core', sub: 'Conflict, contrast and development', focus: 'The psychological engine of the story.', body: 'A story lives by conflict and growth. How do you describe the struggles, the fight, the doubt and the eventual victory? We work on the arc of your personal development, so the reader does not just observe but truly lives it with you.' },
       { n: 'Weekend 4', h: 'The senses of the story', sub: 'Sensory writing & atmosphere', focus: 'The technique of ‘showing’ instead of ‘telling’ (show, don’t tell).', body: 'How do you translate smells, sounds and textures into words? We make the scenes tangible and vivid. This is the moment your text stops being a ‘report’ and becomes an experience; we take the step towards drama the reader can feel.' },
       { n: 'Weekend 5', h: 'The finale', sub: 'Rhythm, editing and universal meaning', focus: 'Finishing and connecting with the world.', body: 'We polish the texts for a smooth rhythm and keep the thread intact. The closing focuses on universal meaning: what does your personal story say about being human?' },
@@ -281,6 +283,7 @@ const copy = {
             <dl class="weekend__body">
               <div><dt class="eyebrow muted">{copy.focus}</dt><dd>{w.focus}</dd></div>
               <div><dt class="eyebrow muted">{copy.inhoud}</dt><dd>{w.body}</dd></div>
+              {w.guest && <div class="weekend__guest"><dt class="eyebrow muted">{copy.coach}</dt><dd>{w.guest} <a class="arrow-link" href={route('over', locale)}>{copy.gertLink}</a></dd></div>}
             </dl>
           </li>
         ))}
@@ -416,6 +419,8 @@ const copy = {
   .weekend__body { margin: 0; display: grid; gap: 1rem; }
   .weekend__body dt { margin-bottom: 0.3rem; }
   .weekend__body dd { margin: 0; }
+  .weekend__guest { border-left: 1px solid var(--clay); padding-left: 1rem; }
+  .weekend__guest .arrow-link { display: inline-block; margin-top: 0.5rem; }
   .krijg { gap: clamp(1.5rem, 4vw, 3.5rem); }
   .krijg h3 { margin-bottom: 0.6rem; }
   .quote { margin: clamp(3rem, 6vw, 5rem) auto 0; text-align: center; }
