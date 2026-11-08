@@ -2,7 +2,7 @@
 /**
  * HOME — the brief's copy, laid out in the Tifawine rhythm:
  * hero → intro split → photo collage → full-width banner → two offer cards →
- * centred "what participants experience" → agenda teaser → closing CTA on a photo.
+ * centred "what participants experience" → agenda teaser → location → The Story of my Life → closing CTA on a photo.
  */
 import Base from '../layouts/Base.astro';
 import Hero from '@opstellingen/shared/components/Hero.astro';
@@ -52,6 +52,11 @@ const copy = {
     s6Title: 'Een plek om thuis te komen',
     s6: 'De opstellingen vinden plaats in het vernieuwde paviljoen op Homecoming Land in Brasschaat: een stille plek tussen de bomen, op een boogscheut van Antwerpen.',
     s6Link: 'Locatie & route',
+    storyEyebrow: 'Ook op Homecoming Land',
+    storyTitle: 'The Story of my Life',
+    story: 'Geef je levensverhaal vorm: een schrijfopleiding in vijf weekenden met Gert Embrechts, waarin storytellingtechniek en systemisch werk samenkomen. Van herinnering naar een verhaal dat raakt.',
+    storyMeta: 'Vanaf april 2027 · 5 weekenden · max. 12 deelnemers',
+    storyLink: 'Ontdek de opleiding',
     ctaTitle: 'Klaar voor een nieuwe beweging?',
     cta: 'Gun jezelf de ruimte om te helen en de balans te herstellen. Of je nu kiest voor de dynamiek van een groep of de privacy van een individuele sessie, ik begeleid je met zorg en wijsheid.',
     alt: {
@@ -65,6 +70,7 @@ const copy = {
       groep: 'Een kring van stoelen tussen de bomen',
       prive: 'Twee handen die elkaar vasthouden tijdens een opstelling',
       sessie: 'Jessica tijdens een opstelling',
+      story: 'Ochtendlicht valt over een bospad op Homecoming Land',
       cta: 'Avondrood boven de dennen',
     },
   },
@@ -100,6 +106,11 @@ const copy = {
     s6Title: 'A place to come home to',
     s6: 'The constellations take place in the renovated pavilion at Homecoming Land in Brasschaat: a quiet place among the trees, a stone’s throw from Antwerp.',
     s6Link: 'Location & directions',
+    storyEyebrow: 'Also at Homecoming Land',
+    storyTitle: 'The Story of my Life',
+    story: 'Give shape to your life story: a writing course in five weekends with Gert Embrechts, bringing together storytelling craft and systemic work. From memory to a story that touches people.',
+    storyMeta: 'From April 2027 · 5 weekends · max. 12 participants',
+    storyLink: 'Discover the course',
     ctaTitle: 'Ready for a new movement?',
     cta: 'Give yourself the room to heal and restore balance. Whether you choose the dynamics of a group or the privacy of an individual session, I guide you with care and wisdom.',
     alt: {
@@ -113,6 +124,7 @@ const copy = {
       groep: 'A circle of chairs among the trees',
       prive: 'Two hands holding each other during a constellation',
       sessie: 'Jessica during a constellation',
+      story: 'Morning light falling across a woodland path at Homecoming Land',
       cta: 'Evening sky above the pines',
     },
   },
@@ -217,6 +229,19 @@ const copy = {
         <p><a class="arrow-link" href={route('locatie', locale)}>{copy.s6Link}</a></p>
       </div>
       <div class="frame frame--4x3"><img src="/images/locatie-poort.jpg" alt="Homecoming Land, Bredabaan 1251" loading="lazy" /></div>
+    </div>
+  </section>
+
+  <!-- 8b. The Story of my Life teaser -->
+  <section class="section band">
+    <div class="wrap split split--photo">
+      <div class="frame frame--4x3"><img src="/images/blog-voorbereiden.jpg" alt={copy.alt.story} loading="lazy" /></div>
+      <div>
+        <SectionHeading eyebrow={copy.storyEyebrow} title={copy.storyTitle} />
+        <p class="lede">{copy.story}</p>
+        <p class="eyebrow muted">{copy.storyMeta}</p>
+        <p><a class="arrow-link" href={route('story', locale)}>{copy.storyLink}</a></p>
+      </div>
     </div>
   </section>
 
